@@ -52,8 +52,6 @@ ntries = 0
 while (not ok) and ntries<maxntries:
     ntries+=1
     if(ntries>0):
-        #   arr=poplastfilled(arr)
-        #  arr=poplastfilled(arr)
         roster.makeempty()
 
 
@@ -61,24 +59,16 @@ while (not ok) and ntries<maxntries:
         print("Try #",str(ntries))
     tryresult = roster.tryfill()
     if tryresult!=0:
-        #print("errcode "+str(tryresult)+" in doonetry")
         continue
 
-       # now check for clashes with restrictions
+    # now check for clashes with restrictions
     clash=False
-
-    #  print(str(minfreeweekends))
-    #  print(str(maxshiftchangesperseries))
-    #  print(str(maxshiftchangespermonth))
-    #  print(str(minworkdayseachperson))
 
     arr=roster.arr
     for i in qualified:
            if hasfreeweekends(i,arr)<minfreeweekends or roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries or countshiftchangespermonth(i,arr)>maxshiftchangespermonth or countworkdays(i,arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
                clash=True
     for i in regular:
-#        print("Max shift changes series for "+str(i)+": "+str(roster.findmaxshiftchangesseries(i)))
- #       print("Number of shift changes for "+str(i)+": "+str(countshiftchangespermonth(i,arr)))
         if hasfreeweekends(i,arr)<minfreeweekends or roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries or countshiftchangespermonth(i,arr)>maxshiftchangespermonth or countworkdays(i,arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
                clash=True
     if not clash:
@@ -87,7 +77,6 @@ while (not ok) and ntries<maxntries:
 if ok:
     print("Worked on Try # "+str(ntries)+".")
     roster.print()
-    #print(getindivsched("Jennie",roster.arr))
     print(roster.getindivschedtable(roster.qualified))
     print(roster.getindivschedtable(roster.regular))
 else:

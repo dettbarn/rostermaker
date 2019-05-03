@@ -49,6 +49,11 @@ def getvacation(employee):
     print("Error in getvacation: Employee \""+employee+"\" not found.")
     return 1
 
+def setthevacations(): # months start with 0 in this definition
+    for employee in vacations:
+        setvacation(employee,vacations[employee])
+
+
 
 def hasvacationthatday(employee,theday):
     strvacdays=getvacation(employee)

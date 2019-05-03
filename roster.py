@@ -48,8 +48,7 @@ class Roster:
                     else:
                         favsarr = []
                     for i in range(0,kquali):
-                        #rnd=qualified[r.randrange(0,nqualified)]# Old non-weighted averaging
-                        # New weighted averaging:
+                        # weighted averaging:
                         rnd = pickwithfavorites(self.qualified,favsarr,favwgt)
 
                         # this one-shift-of-person-per-day is implicitly assumed here (without using the integer defined above)
@@ -57,20 +56,17 @@ class Roster:
                         while not wouldbeok(rnd,self.arr,iday,ishift):
                             nfails +=1
                             if nfails>maxnfails:
-                                #                               print("Too many fails, will retry")
                                 return 1
                             rnd = pickwithfavorites(self.qualified,favsarr,favwgt)
                         self.arr[iday][ishift]=addtoshift(rnd,self.arr[iday][ishift])
                     for i in range(0,kreg):
-                        #rnd=regular[r.randrange(0,nregular)] # Old non-weighted averaging
-                        # New weighted averaging:
+                        # weighted averaging:
                         rnd = pickwithfavorites(self.regular,favsarr,favwgt)
                         nfails=0
                         # this one-shift-of-person-per-day is implicitly assumed here (without using the integer defined above)
                         while not wouldbeok(rnd,self.arr,iday,ishift):
                             nfails+=1
                             if nfails>maxnfails:
-                                #print("Too many fails, will retry")
                                 return 2
                             rnd = pickwithfavorites(self.regular,favsarr,favwgt)
                         self.arr[iday][ishift]=addtoshift(rnd,self.arr[iday][ishift])
@@ -90,5 +86,4 @@ class Roster:
                         i = j # skip outer for-loop directly to where the inner for-loop has walked
                         number = max(number,nshiftchangesthere) # update this
                         break # break inner for-loop and go on with the month
-        #print("Max shift changes series for "+employee+": "+str(number))
         return number
