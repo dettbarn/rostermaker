@@ -11,7 +11,7 @@ import random as r
 import math
 import functions
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
-exec(compile(open("theinput.py", "rb").read(), "theinput.py", 'exec'))
+exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 
 # evaluate input
@@ -49,30 +49,41 @@ roster = Roster(ndays,nshiftsperday,qualified,regular)
 
 ok = False
 ntries = 0
+print("Starting calculation.")
 while (not ok) and ntries<maxntries:
-    ntries+=1
-    if(ntries>0):
-        roster.makeempty()
-
-
-    if ntries%printtrynumbermod == 0:
-        print("Try #",str(ntries))
-    tryresult = roster.tryfill()
-    if tryresult!=0:
-        continue
-
-    # now check for clashes with restrictions
-    clash=False
-
-    arr=roster.arr
-    for i in qualified:
-           if hasfreeweekends(i,arr)<minfreeweekends or roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries or countshiftchangespermonth(i,arr)>maxshiftchangespermonth or countworkdays(i,arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
-               clash=True
-    for i in regular:
-        if hasfreeweekends(i,arr)<minfreeweekends or roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries or countshiftchangespermonth(i,arr)>maxshiftchangespermonth or countworkdays(i,arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
-               clash=True
-    if not clash:
-        ok=True
+    try:
+        ntries+=1
+        if(ntries>0):
+            roster.makeempty()
+        
+        
+        if ntries%printtrynumbermod == 0:
+            print("Try #",str(ntries))
+        tryresult = roster.tryfill()
+        if tryresult!=0:
+            continue
+        
+        # now check for clashes with restrictions
+        clash=False
+        
+        arr=roster.arr
+        for i in qualified:
+               if hasfreeweekends(i,arr)<minfreeweekends or roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries or countshiftchangespermonth(i,arr)>maxshiftchangespermonth or countworkdays(i,arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
+                   clash=True
+        for i in regular:
+            if hasfreeweekends(i,arr)<minfreeweekends or roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries or countshiftchangespermonth(i,arr)>maxshiftchangespermonth or countworkdays(i,arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
+                   clash=True
+        if not clash:
+            ok=True
+    except KeyboardInterrupt:
+        print("Calculation stopped by KeyboardInterrupt.")
+        break
+    except SystemExit:
+        print("Calculation stopped by SystemExit.")
+        break
+    except:
+        print("Unknown error occurred during calculation.")
+        raise
 
 if ok:
     print("Worked on Try # "+str(ntries)+".")
@@ -83,4 +94,17 @@ else:
     print("Did not work after "+str(ntries)+" tries.")
     if printfailedoutput==True:
         print("This is what I have:")
-        print(getindivsched("Jennie",roster.arr))
+        print(roster.getindivschedtable(roster.qualified))
+        print(roster.getindivschedtable(roster.regular))
+    if printfailreasons==True:
+        for i in qualified+regular:
+            failstring=""
+            if hasfreeweekends(i,roster.arr)<minfreeweekends:
+                failstring+="free weekends,"
+            if roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries:
+                failstring+="shift series,"
+            if countshiftchangespermonth(i,roster.arr)>maxshiftchangespermonth:
+                failstring+="monthly shift changes,"
+            if countworkdays(i,roster.arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
+                failstring+="work days,"
+            print(i+" problems: "+failstring)

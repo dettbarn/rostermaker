@@ -1,5 +1,6 @@
 __pycache__/
-*.out
 .trash/
-theinput.py
+*.out
+*.tmp
+input
 test.py

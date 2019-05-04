@@ -43,10 +43,14 @@ class Roster:
                     kpersons=minpersonspershift
                     kquali=1 #r.randrange(minqualipershift,maxqualipershift+1)
                     kreg=max(0,kpersons-kquali)
+                    # first generate favorites array
+                    favsarr = []
                     if iday>=1:
-                        favsarr = (self.arr[iday-1][ishift]).split(str_sep)
-                    else:
-                        favsarr = []
+                        onedaybefore=(self.arr[iday-1][ishift]).split(str_sep)
+                        for employee in onedaybefore:
+                            # person only favorite if not in all last (maxdaysinrow) days
+                            if not isinalllastndays(employee,self.arr,iday-1,self.ndays):
+                                favsarr += employee
                     for i in range(0,kquali):
                         # weighted averaging:
                         rnd = pickwithfavorites(self.qualified,favsarr,favwgt)
