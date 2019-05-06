@@ -2,6 +2,8 @@
 
 import random
 
+exec(compile(open("exceptions.py", "rb").read(), "exceptions.py", 'exec'))
+
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee,shiftstring):
     splitted=shiftstring.split(str_sep)
@@ -146,6 +148,27 @@ def countshiftchangespermonth(employee,arr):
     return number
 
 
+# get last shift, BEFORE the shift currently considered
+def getlastshiftname(employee,arr,curday,curshift):
+    for ishift in range(curshift,0):
+        if isinshift(employee,arr[iday][ishift]):
+            return shiftnames[ishift]
+    for iday in range(curday,0):
+        for ishift in range(nshiftsperday,0):
+            if isinshift(employee,arr[iday][ishift]):
+                return shiftnames[ishift]
+    # reaches beginning of month, still not found, so it's undefined
+    return "undef"
+
+# get last day, BEFORE the day currently considered
+def getlastday(employee,arr,curday):
+    lastday = -1
+    for iday in range(0,curday):
+        if isinday(employee,arr,iday):
+            lastday = iday
+    # reaches beginning of month, still not found, so it's undefined
+    return lastday
+
 def poplastfilled(arr):
     for iday in range(ndays,0):
         for ishift in range(nshiftsperday,0):
@@ -174,9 +197,7 @@ def weightedrnd(wgtarr):
         for wgt in newwgtarr:
             wgt=1
     elif min(newwgtarr) == 0 and max(newwgtarr) == 0:
-        print("All weights are zero! Assuming all weights to be unity.")
-        for wgt in newwgtarr:
-            wgt=1
+        raise AllWeightsZeroException()
     rndval = random.uniform(0,sum(wgtarr))
     cur = rndval
     # go through the array, to find where we have landed
@@ -199,7 +220,11 @@ def pickweighted(itemarr,wgtarr):
     elif len(itemarr) != len(wgtarr):
         print("ERROR: itemarr and wgtarr have different lengths. I give you the first item.")
         return itemarr[0]
-    return itemarr[weightedrnd(wgtarr)]
+    try:
+        return itemarr[weightedrnd(wgtarr)]
+    except AllWeightsZeroException:
+        raise NonePickableException
+        return -1
 
 # Pick randomly an item in a list and return it
 # Favorites are supplied with favsarr, each weighted by favwgt
@@ -239,7 +264,27 @@ def pickwithfavoritesandvetoes(itemarr,favsarr,favwgt,vetoarr):
             wgtarr.append(favwgt)
         else: # found in neither favsarr nor in vetoarr
             wgtarr.append(1)
-    return pickweighted(itemarr,wgtarr)
+    try:
+        return pickweighted(itemarr,wgtarr)
+    except NonePickableException:
+        return ""
+
+# Favorites, vetoes etc. now nicely arranged in an Priorities object.
+def pickwithpriorities(itemarr,prio):
+    nitems = len(itemarr)
+    if nitems == 0:
+        print("ERROR: Zero items given.")
+        return -1
+    wgtarr=[]
+    for i in range (0,nitems):
+        if itemarr[i] in prio.dict.keys():
+            wgtarr.append(prio.dict[itemarr[i]])
+        else: # not found in prio
+            wgtarr.append(1)
+    try:
+        return pickweighted(itemarr,wgtarr)
+    except NonePickableException:
+        return ""
 
 # Check if it would be ok to add this employee (rnd) at this day and shift
 def wouldbeok(rnd,arr,iday,ishift):

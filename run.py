@@ -27,7 +27,6 @@ arrvacregular=[]
 for i in range (0,nregular):
     arrvacregular.append("")
 
-# call this function in theinput.py
 setthevacations()
 
 # Calculate the weekend-days
