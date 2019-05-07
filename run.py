@@ -10,9 +10,20 @@
 import random as r
 import math
 import functions
+import gettext
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
+
+# set locale
+langs=['de'] # all translations we support
+langs_en=['en']+langs
+if setlang in langs:
+    lang = gettext.translation('run', localedir='locales', languages=[setlang])
+    lang.install()
+elif setlang!='en': # English is default, no need to translate
+    str_langs_en = ', '.join(langs_en)
+    print("Language '%s' not supported. Only available: %s.  Continuing in English." % (setlang, str_langs_en))
 
 # evaluate input
 nqualified=len(qualified)
@@ -38,17 +49,17 @@ for i in range(0,ndays):
 
 nwedays=len(arrwe)
 
-print("Anzahl Fachkraefte: "+str(nqualified))
-print("Anzahl anderer Mitarbeiter: "+str(nregular))
-print("Wochenendtage: "+str(arrwe))
-print("Anzahl Wochenendtage: "+str(nwedays))
+print(_("Number of qualified employees: %d") % nqualified)
+print(_("Number of other employees: %d") % nregular)
+print(_("Weekend days: %s") % str(arrwe))
+print(_("Number of weekend days: %d") % nwedays)
 
 # Initialize roster
 roster = Roster(ndays,nshiftsperday,qualified,regular)
 
 ok = False
 ntries = 0
-print("Starting calculation.")
+print(_("Starting calculation."))
 while (not ok) and ntries<maxntries:
     try:
         ntries+=1
@@ -57,7 +68,7 @@ while (not ok) and ntries<maxntries:
         
         
         if ntries%printtrynumbermod == 0:
-            print("Try #",str(ntries))
+            print(_("Try #"),str(ntries))
         tryresult = roster.tryfill()
         if tryresult!=0:
             continue
@@ -75,35 +86,35 @@ while (not ok) and ntries<maxntries:
         if not clash:
             ok=True
     except KeyboardInterrupt:
-        print("Calculation stopped by KeyboardInterrupt.")
+        print(_("Calculation stopped by KeyboardInterrupt."))
         break
     except SystemExit:
-        print("Calculation stopped by SystemExit.")
+        print(_("Calculation stopped by SystemExit."))
         break
     except:
-        print("Unknown error occurred during calculation.")
+        print(_("Unknown error occurred during calculation."))
         raise
 
 if ok:
-    print("Worked on Try # "+str(ntries)+".")
+    print(_("Worked on try number: # %d.") % ntries)
     roster.print()
     print(roster.getindivschedtable(roster.qualified))
     print(roster.getindivschedtable(roster.regular))
 else:
-    print("Did not work after "+str(ntries)+" tries.")
+    print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput==True:
-        print("This is what I have:")
+        print(_("This is what I have:"))
         print(roster.getindivschedtable(roster.qualified))
         print(roster.getindivschedtable(roster.regular))
     if printfailreasons==True:
         for i in qualified+regular:
             failstring=""
             if hasfreeweekends(i,roster.arr)<minfreeweekends:
-                failstring+="free weekends,"
+                failstring+=_("free weekends,")
             if roster.findmaxshiftchangesseries(i)>maxshiftchangesperseries:
-                failstring+="shift series,"
+                failstring+=_("shift series,")
             if countshiftchangespermonth(i,roster.arr)>maxshiftchangespermonth:
-                failstring+="monthly shift changes,"
+                failstring+=_("monthly shift changes,")
             if countworkdays(i,roster.arr)<minworkdayseachperson*(ndays-getnvacdays(i))/ndays:
-                failstring+="work days,"
-            print(i+" problems: "+failstring)
+                failstring+=_("work days,")
+            print(_("%s problems: %s") % (i,failstring))
