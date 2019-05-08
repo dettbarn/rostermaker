@@ -1,3 +1,5 @@
+import random as r
+
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
 
@@ -41,7 +43,7 @@ class Roster:
                     # we also assume that we work at minimum staff
                     kpersons = minpersonspershift
                     kquali = 1
-                    # kquali = r.randrange(minqualipershift, maxqualipershift+1)
+                    # kquali = r.randrange(minqualipershift, maxqualipershift + 1)
                     kreg = max(0, kpersons - kquali)
                     # first generate favorites and vetoes arrays
                     prio = Priorities()
@@ -54,7 +56,7 @@ class Roster:
                             if isinalllastndays(employee, self.arr, iday - 1, maxdaysinrow):
                                 prio.setweight(employee, 0)
                             elif isinalllastndays(employee, self.arr, iday - 1, maxdaysinrow - 1):
-                                prio.setweight(employee, favwgt / 3)
+                                prio.setweight(employee, favwgtdimin)
                             else:
                                 prio.setweight(employee, favwgt)
                         for employee in (self.qualified + self.regular):
@@ -63,9 +65,9 @@ class Roster:
                                 # Scale weight down if would be shift change
                                 lastday = getlastday(employee, self.arr, iday)
                                 if lastday >= 0 and iday - lastday == 1:
-                                    prio.setweight(employee, 0.05)  # yesterday different shift
+                                    prio.scaleweight(employee, sclshiftjump)
                                 else:
-                                    prio.setweight(employee, 0.4)
+                                    prio.scaleweight(employee, sclshiftchng)
                     for i in range(0, kquali):
                         # weighted averaging:
                         rnd = pickwithpriorities(self.qualified, prio)
