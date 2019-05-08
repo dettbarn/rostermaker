@@ -4,3 +4,4 @@ __pycache__/
 *.tmp
 input
 test.py
+notes.txt

@@ -1,12 +1,5 @@
 #!/usr/local/bin/python3.5
 
-# todo:
-# - restrict number of shift changes (F<->S<->N<->F) within shift series (say <= 1) and also within month (say <= 5)
-# - make workdays count respect also the vacation days
-# - check if the new stuff (count shift changes per series or month) really works. Right now it seems that it doesn't
-# - print out in different formats (dat; csv; tex, also make ps and pdf; html)
-# - better UI, that is separated from the algorithms (currently, theinput.py can be corrupted easily)
-
 import random as r
 import math
 import functions
