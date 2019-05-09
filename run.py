@@ -63,12 +63,8 @@ while (not ok) and ntries < maxntries:
             continue
         # now check for clashes with restrictions
         clash = False
-        arr = roster.arr
-        for i in qualified:
-            if hasfreeweekends(i, arr) < minfreeweekends or roster.findmaxshiftchangesseries(i) > maxshiftchangesperseries or countshiftchangespermonth(i, arr) > maxshiftchangespermonth or countworkdays(i, arr) < minworkdayseachperson * (ndays - getnvacdays(i)) / ndays:
-                clash = True
-        for i in regular:
-            if hasfreeweekends(i, arr) < minfreeweekends or roster.findmaxshiftchangesseries(i) > maxshiftchangesperseries or countshiftchangespermonth(i, arr) > maxshiftchangespermonth or countworkdays(i, arr) < minworkdayseachperson * (ndays - getnvacdays(i)) / ndays:
+        for i in qualified + regular:
+            if roster.nclashes(i) >= 1:
                 clash = True
         if not clash:
             ok = True
@@ -84,24 +80,13 @@ while (not ok) and ntries < maxntries:
 
 if ok:
     print(_("Worked on try number: # %d.") % ntries)
-    roster.print()
-    print(roster.getindivschedtable(roster.qualified))
-    print(roster.getindivschedtable(roster.regular))
+    roster.printfull()
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
         print(_("This is what I have:"))
-        print(roster.getindivschedtable(roster.qualified))
-        print(roster.getindivschedtable(roster.regular))
+        roster.printfull()
     if printfailreasons is True:
         for i in qualified + regular:
-            failstring = ""
-            if hasfreeweekends(i, roster.arr) < minfreeweekends:
-                failstring += _("free weekends,")
-            if roster.findmaxshiftchangesseries(i) > maxshiftchangesperseries:
-                failstring += _("shift series,")
-            if countshiftchangespermonth(i, roster.arr) > maxshiftchangespermonth:
-                failstring += _("monthly shift changes,")
-            if countworkdays(i, roster.arr) < minworkdayseachperson * (ndays - getnvacdays(i)) / ndays:
-                failstring += _("work days,")
+            failstring = ','.join(roster.clashes(i))
             print(_("%s problems: %s") % (i, failstring))

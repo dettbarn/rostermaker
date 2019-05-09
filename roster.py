@@ -25,6 +25,11 @@ class Roster:
     def print(self):
         print(self.arr)
 
+    def printfull(self):
+        self.print()
+        print(roster.getindivschedtable(roster.qualified))
+        print(roster.getindivschedtable(roster.regular))
+
     def getindivschedtable(self, thesemembers):
         schedtab = str(thesemembers) + "\n"
         for iday in range(0, self.ndays):
@@ -117,3 +122,18 @@ class Roster:
                         number = max(number, nshiftchangesthere)  # update this
                         break  # break inner for-loop and go on with the month
         return number
+
+    def clashes(self, employee):
+        clashesarr = []
+        if hasfreeweekends(employee, self.arr) < minfreeweekends:
+            clashesarr += _("free weekends")
+        if roster.findmaxshiftchangesseries(employee) > maxshiftchangesperseries:
+            clashesarr += _("shift series")
+        if countshiftchangespermonth(employee, roster.arr) > maxshiftchangespermonth:
+            clashesarr += _("monthly shift changes")
+        if countworkdays(employee, roster.arr) < minworkdayseachperson * (ndays - getnvacdays(employee)) / ndays:
+            clashesarr += _("work days")
+        return clashesarr
+
+    def nclashes(self, employee):
+        return len(self.clashes(employee))

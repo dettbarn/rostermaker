@@ -66,20 +66,20 @@ msgid "This is what I have:"
 msgstr "Dies ist was ich habe:"
 
 #: run.py:104
-msgid "free weekends,"
-msgstr "freie Wochenenden,"
+msgid "free weekends"
+msgstr "freie Wochenenden"
 
 #: run.py:106
-msgid "shift series,"
-msgstr "Schichtserien,"
+msgid "shift series"
+msgstr "Schichtserien"
 
 #: run.py:108
-msgid "monthly shift changes,"
-msgstr "Schichtwechsel im Monat,"
+msgid "monthly shift changes"
+msgstr "Schichtwechsel im Monat"
 
 #: run.py:110
-msgid "work days,"
-msgstr "Arbeitstage,"
+msgid "work days"
+msgstr "Arbeitstage"
 
 #: run.py:111
 msgid "%s problems: %s"
