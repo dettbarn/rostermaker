@@ -53,10 +53,14 @@ class Roster:
                             # person only favorite
                             #   if not in all last (maxdaysinrow) days,
                             #   else vetoed.
-                            if isinalllastndays(employee, self.arr, iday - 1, maxdaysinrow):
+                            if isinalllastndays(employee, self.arr, iday, maxdaysinrow):
                                 prio.setweight(employee, 0)
-                            elif isinalllastndays(employee, self.arr, iday - 1, maxdaysinrow - 1):
+                            elif isinalllastndays(employee, self.arr, iday, maxdaysinrow - 1):
                                 prio.setweight(employee, favwgtdimin)
+                            elif isinexactlyalllastndays(employee, self.arr, iday, 2):
+                                prio.setweight(employee, favwgtaugm)
+                            elif isinexactlyalllastndays(employee, self.arr, iday, 1):
+                                prio.setweight(employee, favwgtaugm)
                             else:
                                 prio.setweight(employee, favwgt)
                         for employee in (self.qualified + self.regular):

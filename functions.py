@@ -78,16 +78,23 @@ def getnvacdays(employee):
 
 # does not recognize previous months yet
 def isinalllastndays(employee, arr, currentday, ndays):
-    if currentday - ndays - 1 < 0:
+    if currentday - ndays < 0:
         return False  # because reaches last month, we don't know
-    for iday in range(currentday - ndays - 1, currentday):
-        isinday = False
-        for ishift in range(0, nshiftsperday):
-            if isinshift(employee, arr[iday][ishift]):
-                isinday = True
-        if isinday is False:
+    for iday in range(currentday - ndays, currentday):
+        if not isinday(employee, arr, iday):
             return False
     return True  # enough days to test, and there hasn't been one day without this employee
+
+
+# does not recognize previous months yet
+# is in all last n days, but not the day before that
+def isinexactlyalllastndays(employee, arr, currentday, ndays):
+    if currentday - ndays - 1 < 0:
+        return False  # because reaches last month, we don't know
+    if (isinalllastndays(employee, arr, currentday, ndays) and 
+    isinday(employee, arr, currentday - ndays - 1) ):
+        return True
+    return False
 
 
 def addtoshift(employee, shiftstring):
