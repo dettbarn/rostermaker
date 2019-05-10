@@ -4,6 +4,7 @@ import random
 
 exec(compile(open("exceptions.py", "rb").read(), "exceptions.py", 'exec'))
 
+
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee, shiftstring):
     splitted = shiftstring.split(str_sep)
@@ -90,8 +91,8 @@ def isinalllastndays(employee, arr, currentday, ndays):
 def isinexactlyalllastndays(employee, arr, currentday, ndays):
     if currentday - ndays - 1 < 0:
         return False  # because reaches last month, we don't know
-    if (isinalllastndays(employee, arr, currentday, ndays) and 
-    isinday(employee, arr, currentday - ndays - 1) ):
+    if (isinalllastndays(employee, arr, currentday, ndays) and
+       isinday(employee, arr, currentday - ndays - 1)):
         return True
     return False
 

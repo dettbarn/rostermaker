@@ -12,9 +12,11 @@ langs_en = ['en'] + langs
 if setlang in langs:
     lang = gettext.translation('all', localedir='locales', languages=[setlang])
     lang.install()
-elif setlang != 'en':  # English is default, no need to translate
+elif setlang != 'en':
     str_langs_en = ', '.join(langs_en)
     print("Language '%s' not supported. Only available: %s.  Continuing in English." % (setlang, str_langs_en))
+else:  # fall back to default English
+    _ = gettext.gettext
 
 
 # evaluate input

@@ -1,8 +1,7 @@
-import random as r
-
 exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
+
 
 class Roster:
     def __init__(self, ndays, nshiftsperday, qualified, regular):
