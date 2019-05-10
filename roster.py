@@ -1,8 +1,8 @@
 import random as r
 
+exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
-
 
 class Roster:
     def __init__(self, ndays, nshiftsperday, qualified, regular):
@@ -126,13 +126,13 @@ class Roster:
     def clashes(self, employee):
         clashesarr = []
         if hasfreeweekends(employee, self.arr) < minfreeweekends:
-            clashesarr += _("free weekends")
+            clashesarr += [_("free weekends")]
         if roster.findmaxshiftchangesseries(employee) > maxshiftchangesperseries:
-            clashesarr += _("shift series")
+            clashesarr += [_("shift series")]
         if countshiftchangespermonth(employee, roster.arr) > maxshiftchangespermonth:
-            clashesarr += _("monthly shift changes")
+            clashesarr += [_("monthly shift changes")]
         if countworkdays(employee, roster.arr) < minworkdayseachperson * (ndays - getnvacdays(employee)) / ndays:
-            clashesarr += _("work days")
+            clashesarr += [_("work days")]
         return clashesarr
 
     def nclashes(self, employee):

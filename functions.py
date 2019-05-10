@@ -4,7 +4,6 @@ import random
 
 exec(compile(open("exceptions.py", "rb").read(), "exceptions.py", 'exec'))
 
-
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee, shiftstring):
     splitted = shiftstring.split(str_sep)
@@ -41,7 +40,7 @@ def setvacation(employee, vacstr):
         if regular[i] == employee:
             arrvacregular[i] = vacstr
             return 0
-    print("Error in setvacation: Employee \"" + employee + "\" not found.")
+    print(_("Error in setvacation: Employee \"%s\" not found.") % employee)
     return 1
 
 
@@ -52,7 +51,7 @@ def getvacation(employee):
     for i in range(0, nregular):
         if regular[i] == employee:
             return arrvacregular[i]
-    print("Error in getvacation: Employee \"" + employee + "\" not found.")
+    print(_("Error in getvacation: Employee \"%s\" not found.") % employee)
     return 1
 
 
@@ -202,7 +201,7 @@ def weightedrnd(wgtarr):
     newwgtarr = wgtarr
     nwgts = len(newwgtarr)
     if min(newwgtarr) < 0:
-        print("No negative weights allowed. Assuming all weights to be unity.")
+        print(_("No negative weights allowed. Assuming all weights to be unity."))
         for i in range(0, nwgts):
             newwgtarr[i] = 1
     elif min(newwgtarr) == 0 and max(newwgtarr) == 0:
@@ -226,10 +225,10 @@ def pick(itemarr):
 # pick randomly an item in a list, weighted by wgtarr
 def pickweighted(itemarr, wgtarr):
     if len(itemarr) == 0:
-        print("ERROR: Zero items given.")
+        print(_("ERROR: Zero items given."))
         return -1
     elif len(itemarr) != len(wgtarr):
-        print("ERROR: itemarr and wgtarr have different lengths. I give you the first item.")
+        print(_("ERROR: itemarr and wgtarr have different lengths. I give you the first item."))
         return itemarr[0]
     try:
         return itemarr[weightedrnd(wgtarr)]
@@ -244,10 +243,10 @@ def pickweighted(itemarr, wgtarr):
 def pickwithfavorites(itemarr, favsarr, favwgt):
     nitems = len(itemarr)
     if nitems == 0:
-        print("ERROR: Zero items given.")
+        print(_("ERROR: Zero items given."))
         return -1
     if favwgt <= 0:
-        print("ERROR: Favorites must have positive weight.")
+        print(_("ERROR: Favorites must have positive weight."))
     wgtarr = []
     for i in range(0, nitems):
         if itemarr[i] in favsarr:
@@ -265,10 +264,10 @@ def pickwithfavorites(itemarr, favsarr, favwgt):
 def pickwithfavoritesandvetoes(itemarr, favsarr, favwgt, vetoarr):
     nitems = len(itemarr)
     if nitems == 0:
-        print("ERROR: Zero items given.")
+        print(_("ERROR: Zero items given."))
         return -1
     if favwgt <= 0:
-        print("ERROR: Favorites must have positive weight.")
+        print(_("ERROR: Favorites must have positive weight."))
     wgtarr = []
     for i in range(0, nitems):
         if itemarr[i] in vetoarr:
@@ -287,7 +286,7 @@ def pickwithfavoritesandvetoes(itemarr, favsarr, favwgt, vetoarr):
 def pickwithpriorities(itemarr, prio):
     nitems = len(itemarr)
     if nitems == 0:
-        print("ERROR: Zero items given.")
+        print(_("ERROR: Zero items given."))
         return -1
     wgtarr = []
     for i in range(0, nitems):

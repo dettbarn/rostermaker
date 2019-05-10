@@ -63,22 +63,6 @@ msgstr ""
 msgid "This is what I have:"
 msgstr ""
 
-#: run.py:104
-msgid "free weekends"
-msgstr ""
-
-#: run.py:106
-msgid "shift series"
-msgstr ""
-
-#: run.py:108
-msgid "monthly shift changes"
-msgstr ""
-
-#: run.py:110
-msgid "work days"
-msgstr ""
-
 #: run.py:111
 msgid "%s problems: %s"
 msgstr ""

@@ -1,15 +1,16 @@
 #!/usr/local/bin/python3.5
 
 import gettext
-exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
+
 exec(compile(open("input", "rb").read(), "input", 'exec'))
+exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 
 # set locale
 langs = ['de']  # all translations we support
 langs_en = ['en'] + langs
 if setlang in langs:
-    lang = gettext.translation('run', localedir='locales', languages=[setlang])
+    lang = gettext.translation('all', localedir='locales', languages=[setlang])
     lang.install()
 elif setlang != 'en':  # English is default, no need to translate
     str_langs_en = ', '.join(langs_en)
@@ -88,5 +89,5 @@ else:
         roster.printfull()
     if printfailreasons is True:
         for i in qualified + regular:
-            failstring = ','.join(roster.clashes(i))
+            failstring = ', '.join(roster.clashes(i))
             print(_("%s problems: %s") % (i, failstring))

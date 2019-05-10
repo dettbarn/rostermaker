@@ -1,6 +1,5 @@
 exec(compile(open("exceptions.py", "rb").read(), "exceptions.py", 'exec'))
 
-
 # weights (values) assigned to employees (keys) in a dictionary structure.
 class Priorities:
     def __init__(self):
@@ -13,7 +12,7 @@ class Priorities:
         if val >= 0:
             self.dict[key] = val
         else:
-            raise IllegalNegativeException("Weights cannot be negative!")
+            raise IllegalNegativeException(_("Weights cannot be negative!"))
     
     def scaleweight(self, key, scale):
         if key not in self.dict.keys():
