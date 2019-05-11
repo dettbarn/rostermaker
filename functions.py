@@ -140,21 +140,6 @@ def isshiftchange(shift1, shift2):
         return False
 
 
-# find the total number of shift changes in this month
-# (here, a shift change can be between two shift series as well)
-# (but a shift change is not counted between two months)
-def countshiftchangespermonth(employee, arr):
-    number = 0
-    lastshiftname = 'undef'
-    for i in range(0, ndays):
-        if isinday(employee, arr, i):
-            thisshiftname = whatinday(employee, arr, i)
-            if isshiftchange(lastshiftname, thisshiftname):
-                number += 1
-            lastshiftname = thisshiftname
-    return number
-
-
 # get last shift, BEFORE the shift currently considered
 def getlastshiftname(employee, arr, curday, curshift):
     for ishift in range(curshift, 0):
@@ -186,14 +171,6 @@ def poplastfilled(arr):
                 return arr
 #    print("Tried to pop last filled, but array was already empty.")
     return arr
-
-
-def countworkdays(employee, arr):
-    number = 0
-    for iday in range(0, ndays):
-        if isinday(employee, arr, iday):
-            number += 1
-    return number
 
 
 # give a weighted random out of n items, where the array wgtarr supplies the weights for each item
@@ -325,3 +302,59 @@ def daystr(day):
     if day < 10:
         return " " + str(day)
     return str(day)
+
+
+def monthstr(monthno):
+    if monthno == 1:
+        return _("January")
+    elif monthno == 2:
+        return _("February")
+    elif monthno == 3:
+        return _("March")
+    elif monthno == 4:
+        return _("April")
+    elif monthno == 5:
+        return _("May")
+    elif monthno == 6:
+        return _("June")
+    elif monthno == 7:
+        return _("July")
+    elif monthno == 8:
+        return _("August")
+    elif monthno == 9:
+        return _("September")
+    elif monthno == 10:
+        return _("October")
+    elif monthno == 11:
+        return _("November")
+    elif monthno == 12:
+        return _("December")
+    raise IllegalMonthException(_("Error in monthstr: Illegal month number."))
+    return "undef"
+
+
+# Only respects the 400-year period.
+# Deviations have to be implemented separately
+def isleapyear(year):
+    if year % 400 == 0:
+        return True
+    elif year % 100 == 0:
+        return False
+    elif year % 4 == 0:
+        return True
+    return False
+
+
+def ndays(monthno,year):
+    if monthno == 1 or monthno == 3 or monthno == 5 or monthno == 7 or monthno == 8 or monthno == 10 or monthno == 12:
+        return 31
+    elif monthno == 4 or monthno == 6 or monthno == 9 or monthno == 11:
+        return 30
+    elif monthno == 2:
+        if isleapyear(year):
+            return 29
+        else:
+            return 28
+    else:
+        raise IllegalMonthException(_("Error in ndays: Illegal month number."))
+        return -1

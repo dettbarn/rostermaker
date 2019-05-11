@@ -40,3 +40,59 @@ msgstr "FEHLER: itemarr und wgtarr haben verschiedene Länge. Ich gebe Ihnen das
 #: functions.py:250 functions.py:271
 msgid "ERROR: Favorites must have positive weight."
 msgstr "FEHLER: Favoriten müssen positives Gewicht haben."
+
+#: functions.py:309
+msgid "January"
+msgstr "Januar"
+
+#: functions.py:311
+msgid "February"
+msgstr "Februar"
+
+#: functions.py:313
+msgid "March"
+msgstr "März"
+
+#: functions.py:315
+msgid "April"
+msgstr "April"
+
+#: functions.py:317
+msgid "May"
+msgstr "Mai"
+
+#: functions.py:319
+msgid "June"
+msgstr "Juni"
+
+#: functions.py:321
+msgid "July"
+msgstr "Juli"
+
+#: functions.py:323
+msgid "August"
+msgstr "August"
+
+#: functions.py:325
+msgid "September"
+msgstr "September"
+
+#: functions.py:327
+msgid "October"
+msgstr "Oktober"
+
+#: functions.py:329
+msgid "November"
+msgstr "November"
+
+#: functions.py:331
+msgid "December"
+msgstr "Dezember"
+
+#: functions.py:332
+msgid "Error in monthstr: Illegal month number."
+msgstr "Fehler in monthstr: Illegale Monatsnummer."
+
+#: functions.py:359
+msgid "Error in ndays: Illegal month number."
+msgstr "Fehler in ndays: Illegale Monatsnummer."

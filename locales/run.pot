@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-05-07 18:11+0200\n"
+"POT-Creation-Date: 2019-05-11 14:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,23 +15,23 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: run.py:43
+#: run.py:48
 msgid "Number of qualified employees: %d"
 msgstr ""
 
-#: run.py:44
+#: run.py:49
 msgid "Number of other employees: %d"
 msgstr ""
 
-#: run.py:45
+#: run.py:50
 msgid "Weekend days: %s"
 msgstr ""
 
-#: run.py:46
+#: run.py:51
 msgid "Number of weekend days: %d"
 msgstr ""
 
-#: run.py:53
+#: run.py:55
 msgid "Starting calculation."
 msgstr ""
 
@@ -39,31 +39,31 @@ msgstr ""
 msgid "Try #"
 msgstr ""
 
-#: run.py:80
+#: run.py:74
 msgid "Calculation stopped by KeyboardInterrupt."
 msgstr ""
 
-#: run.py:83
+#: run.py:77
 msgid "Calculation stopped by SystemExit."
 msgstr ""
 
-#: run.py:86
+#: run.py:80
 msgid "Unknown error occurred during calculation."
 msgstr ""
 
-#: run.py:90
+#: run.py:84
 msgid "Worked on try number: # %d."
 msgstr ""
 
-#: run.py:95
+#: run.py:87
 msgid "Did not work after %d tries."
 msgstr ""
 
-#: run.py:97
+#: run.py:89
 msgid "This is what I have:"
 msgstr ""
 
-#: run.py:111
+#: run.py:94
 msgid "%s problems: %s"
 msgstr ""
 

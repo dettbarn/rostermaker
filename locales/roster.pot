@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-05-10 18:48+0200\n"
+"POT-Creation-Date: 2019-05-11 14:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,19 +15,23 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: roster.py:129
-msgid "free weekends"
-msgstr ""
-
-#: roster.py:131
-msgid "shift series"
+#: roster.py:30
+msgid "---  %s %d roster  ---"
 msgstr ""
 
 #: roster.py:133
-msgid "monthly shift changes"
+msgid "free weekends"
 msgstr ""
 
 #: roster.py:135
+msgid "shift series"
+msgstr ""
+
+#: roster.py:137
+msgid "monthly shift changes"
+msgstr ""
+
+#: roster.py:139
 msgid "work days"
 msgstr ""
 

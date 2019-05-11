@@ -8,3 +8,7 @@ class NonePickableException(Exception):
 
 class IllegalNegativeException(Exception):
     pass
+
+
+class IllegalMonthException(Exception):
+    pass

@@ -4,17 +4,19 @@ exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
 
 
 class Roster:
-    def __init__(self, ndays, nshiftsperday, qualified, regular):
-        self.ndays = ndays
+    def __init__(self, nshiftsperday, qualified, regular, monthno, year):
         self.nshiftsperday = nshiftsperday
         self.arr = []
+        self.qualified = qualified
+        self.regular = regular
+        self.monthno = monthno
+        self.year = year
+        self.ndays = ndays(self.monthno, self.year)
         for iday in range(0, self.ndays):
             x = []
             for ishift in range(0, self.nshiftsperday):
                 x.append("")
             (self.arr).append(x)
-        self.qualified = qualified
-        self.regular = regular
 
     def makeempty(self):
         for iday in range(0, self.ndays):
@@ -24,10 +26,13 @@ class Roster:
     def print(self):
         print(self.arr)
 
+    def printtable(self):
+        print(_("---  %s %d roster  ---") % (monthstr(self.monthno), self.year))
+        print(roster.getindivschedtable(roster.qualified + roster.regular))
+
     def printfull(self):
         self.print()
-        print(roster.getindivschedtable(roster.qualified))
-        print(roster.getindivschedtable(roster.regular))
+        self.printtable()
 
     def getindivschedtable(self, thesemembers):
         schedtab = str(thesemembers) + "\n"
@@ -126,13 +131,37 @@ class Roster:
         clashesarr = []
         if hasfreeweekends(employee, self.arr) < minfreeweekends:
             clashesarr += [_("free weekends")]
-        if roster.findmaxshiftchangesseries(employee) > maxshiftchangesperseries:
+        if self.findmaxshiftchangesseries(employee) > maxshiftchangesperseries:
             clashesarr += [_("shift series")]
-        if countshiftchangespermonth(employee, roster.arr) > maxshiftchangespermonth:
+        if self.countshiftchangespermonth(employee) > maxshiftchangespermonth:
             clashesarr += [_("monthly shift changes")]
-        if countworkdays(employee, roster.arr) < minworkdayseachperson * (ndays - getnvacdays(employee)) / ndays:
+        if self.countworkdays(employee) < minworkdayseachperson * (self.ndays - getnvacdays(employee)) / self.ndays:
             clashesarr += [_("work days")]
         return clashesarr
 
     def nclashes(self, employee):
         return len(self.clashes(employee))
+        
+        
+        
+    # find the total number of shift changes in this month
+    # (here, a shift change can be between two shift series as well)
+    # (but a shift change is not counted between two months)
+    def countshiftchangespermonth(self, employee):
+        number = 0
+        lastshiftname = 'undef'
+        for i in range(0, self.ndays):
+            if isinday(employee, self.arr, i):
+                thisshiftname = whatinday(employee, self.arr, i)
+                if isshiftchange(lastshiftname, thisshiftname):
+                    number += 1
+                lastshiftname = thisshiftname
+        return number
+        
+        
+    def countworkdays(self, employee):
+        number = 0
+        for iday in range(0, self.ndays):
+            if isinday(employee, self.arr, iday):
+                number += 1
+        return number

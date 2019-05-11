@@ -34,22 +34,21 @@ for i in range(0, nregular):
 
 setthevacations()
 
+# Initialize roster
+roster = Roster(nshiftsperday, qualified, regular, monthno, year)
+
 # Calculate the weekend-days
 arrwe = []
-for i in range(0, ndays):
+for i in range(0, roster.ndays):
     weekday = i % 7
     if weekday == 5 or weekday == 6:
         arrwe.append(i)
-
 nwedays = len(arrwe)
 
 print(_("Number of qualified employees: %d") % nqualified)
 print(_("Number of other employees: %d") % nregular)
 print(_("Weekend days: %s") % str(arrwe))
 print(_("Number of weekend days: %d") % nwedays)
-
-# Initialize roster
-roster = Roster(ndays, nshiftsperday, qualified, regular)
 
 ok = False
 ntries = 0

@@ -17,6 +17,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: de\n"
 
+#: roster.py:30
+msgid "---  %s %d roster  ---"
+msgstr "---  %s %d Dienstplan  ---"
+
 #: roster.py:129
 msgid "free weekends"
 msgstr "freie Wochenenden"
