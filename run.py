@@ -83,6 +83,7 @@ while (not ok) and ntries < maxntries:
 if ok:
     print(_("Worked on try number: # %d.") % ntries)
     roster.printfull()
+    roster.export("roster", "out")
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
@@ -92,3 +93,8 @@ else:
         for i in qualified + regular:
             failstring = ', '.join(roster.clashes(i))
             print(_("%s problems: %s") % (i, failstring))
+    exportq = "undef"
+    while exportq not in ['y', 'n']:
+        exportq = input(_("Export though? (y/n)  "))
+    if exportq == 'y':
+        roster.export("failedroster", "out")

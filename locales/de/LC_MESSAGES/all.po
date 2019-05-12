@@ -101,6 +101,10 @@ msgstr "Fehler in ndays: Illegale Monatsnummer."
 msgid "Weights cannot be negative!"
 msgstr "Gewichte können nicht negativ sein!"
 
+#: roster.py:42
+msgid "Error: file format \"%s\" not supported. Exporting generic .out file."
+msgstr "Fehler: Dateiformat \"%s\" nicht unterstützt. Exportiere generische .out Datei."
+
 #: roster.py:30
 msgid "---  %s %d roster  ---"
 msgstr "---  %s %d Dienstplan  ---"
@@ -172,3 +176,7 @@ msgstr "Dies ist was ich habe:"
 #: run.py:111
 msgid "%s problems: %s"
 msgstr "%s Probleme: %s"
+
+#: run.py:98
+msgid "Export though? (y/n)  "
+msgstr "Dennoch exportieren? (y/n)  "

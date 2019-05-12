@@ -68,3 +68,7 @@ msgstr "Dies ist was ich habe:"
 #: run.py:111
 msgid "%s problems: %s"
 msgstr "%s Probleme: %s"
+
+#: run.py:98
+msgid "Export though? (y/n)  "
+msgstr "Dennoch exportieren? (y/n)  "

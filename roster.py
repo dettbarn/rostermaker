@@ -1,3 +1,5 @@
+from datetime import datetime
+
 exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
@@ -27,12 +29,31 @@ class Roster:
         print(self.arr)
 
     def printtable(self):
-        print(_("---  %s %d roster  ---") % (monthstr(self.monthno), self.year))
-        print(roster.getindivschedtable(roster.qualified + roster.regular))
+        print(self.getheadline())
+        print(self.getindivschedtable(self.qualified + self.regular))
 
     def printfull(self):
         self.print()
         self.printtable()
+
+    def export(self, prefix, fileformat):
+        supported = ["out"]
+        if fileformat not in supported:
+            print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
+            fileformat = "out"
+        stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        ym = str(year) + "-" + twodigit(monthno)
+        f = open(prefix + "_" + ym + "_" + stamp + "." + fileformat, "w+")
+        if fileformat == "out":
+            f.write(self.getheadline() + "\r\n")
+            f.write(self.getfullschedtable() + "\r\n")
+        f.close()
+
+    def getheadline(self):
+        return _("---  %s %d roster  ---") % (monthstr(self.monthno), self.year)
+
+    def getfullschedtable(self):
+        return self.getindivschedtable(self.qualified + self.regular)
 
     def getindivschedtable(self, thesemembers):
         schedtab = str(thesemembers) + "\n"
@@ -141,9 +162,7 @@ class Roster:
 
     def nclashes(self, employee):
         return len(self.clashes(employee))
-        
-        
-        
+
     # find the total number of shift changes in this month
     # (here, a shift change can be between two shift series as well)
     # (but a shift change is not counted between two months)
@@ -157,8 +176,7 @@ class Roster:
                     number += 1
                 lastshiftname = thisshiftname
         return number
-        
-        
+
     def countworkdays(self, employee):
         number = 0
         for iday in range(0, self.ndays):

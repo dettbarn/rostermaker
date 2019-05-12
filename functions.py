@@ -297,10 +297,17 @@ def wouldbeok(rnd, arr, iday, ishift):
     return True
 
 
-# two-digit string for days: 01...30, or a space instead of a 0
+# space-padded two-digit string for days: " 1"..."31"
 def daystr(day):
     if day < 10:
         return " " + str(day)
+    return str(day)
+
+
+# zero-padded two-digit string: "01"..."99"
+def twodigit(n):
+    if n < 10:
+        return "0" + str(n)
     return str(day)
 
 
@@ -345,7 +352,7 @@ def isleapyear(year):
     return False
 
 
-def ndays(monthno,year):
+def ndays(monthno, year):
     if monthno == 1 or monthno == 3 or monthno == 5 or monthno == 7 or monthno == 8 or monthno == 10 or monthno == 12:
         return 31
     elif monthno == 4 or monthno == 6 or monthno == 9 or monthno == 11:

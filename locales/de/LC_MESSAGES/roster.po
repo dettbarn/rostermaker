@@ -17,6 +17,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: de\n"
 
+#: roster.py:42
+msgid "Error: file format \"%s\" not supported. Exporting generic .out file."
+msgstr "Fehler: Dateiformat \"%s\" nicht unterstützt. Exportiere generische .out Datei."
+
 #: roster.py:30
 msgid "---  %s %d roster  ---"
 msgstr "---  %s %d Dienstplan  ---"
