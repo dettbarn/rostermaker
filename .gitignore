@@ -5,3 +5,9 @@ __pycache__/
 input
 test.py
 notes.txt
+functions.po
+priorities.po
+roster.po
+run.po
+*.mo
+*.pot
