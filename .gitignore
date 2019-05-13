@@ -11,3 +11,4 @@ roster.po
 run.po
 *.mo
 *.pot
+env/
