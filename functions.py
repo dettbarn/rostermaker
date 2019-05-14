@@ -305,10 +305,12 @@ def daystr(day):
 
 
 # zero-padded two-digit string: "01"..."99"
+# invalid numbers will be forced in that scheme
 def twodigit(n):
+    n = round(abs(n))  # force non-negative integer
     if n < 10:
         return "0" + str(n)
-    return str(day)
+    return str(n)[-2:]
 
 
 def monthstr(monthno):
@@ -341,6 +343,7 @@ def monthstr(monthno):
 
 
 # Only respects the 400-year period.
+# Gregorian calendar would also be extrapolated back in history
 # Deviations have to be implemented separately
 def isleapyear(year):
     if year % 400 == 0:
