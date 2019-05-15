@@ -1,4 +1,5 @@
 import unittest
+import gettext
 
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 
@@ -25,5 +26,25 @@ class TestFunctions(unittest.TestCase):
         self.assertFalse(isleapyear(2100))
         self.assertFalse(isleapyear(2019))
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_ndays(self):
+        noLeapYears = [42, 69, 1337, 1700, 1900, 2001, 2002, 2003]
+        LeapYears = [4, 12, 644, 2000, 2004, 2008, 2400]
+        for year in (noLeapYears+LeapYears):
+            self.assertEqual(ndays(1,year),31)
+            self.assertEqual(ndays(3,year),31)
+            self.assertEqual(ndays(4,year),30)
+            self.assertEqual(ndays(5,year),31)
+            self.assertEqual(ndays(6,year),30)
+            self.assertEqual(ndays(7,year),31)
+            self.assertEqual(ndays(8,year),31)
+            self.assertEqual(ndays(9,year),30)
+            self.assertEqual(ndays(10,year),31)
+            self.assertEqual(ndays(11,year),30)
+            self.assertEqual(ndays(12,year),31)
+        for year in noLeapYears:
+            self.assertEqual(ndays(2,year),28)
+        for year in LeapYears:
+            self.assertEqual(ndays(2,year),29)
+
+    if __name__ == '__main__':
+        unittest.main()
