@@ -2,8 +2,9 @@
 
 import random
 
-exec(compile(open("exceptions.py", "rb").read(), "exceptions.py", 'exec'))
+import exceptions
 
+exec(compile(open("input", "rb").read(), "input", 'exec'))
 
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee, shiftstring):
@@ -33,6 +34,8 @@ def whatinday(employee, arr, theday):
 
 
 def setvacation(employee, vacstr):
+    nqualified = len(qualified)
+    nregular = len(regular)
     for i in range(0, nqualified):
         if qualified[i] == employee:
             arrvacqualified[i] = vacstr
@@ -46,6 +49,10 @@ def setvacation(employee, vacstr):
 
 
 def getvacation(employee):
+    # evaluate input
+    nqualified = len(qualified)
+    nregular = len(regular)
+    ntotal = nqualified + nregular
     for i in range(0, nqualified):
         if qualified[i] == employee:
             return arrvacqualified[i]
@@ -57,6 +64,10 @@ def getvacation(employee):
 
 
 def setthevacations():  # months start with 0 in this definition
+    # evaluate input
+    nqualified = len(qualified)
+    nregular = len(regular)
+    ntotal = nqualified + nregular
     for employee in vacations:
         setvacation(employee, vacations[employee])
 

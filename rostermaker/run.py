@@ -2,6 +2,9 @@
 
 import gettext
 
+#import functions
+#from roster import Roster
+
 exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
@@ -10,7 +13,7 @@ exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 langs = ['de']  # all translations we support
 langs_en = ['en'] + langs
 if setlang in langs:
-    lang = gettext.translation('all', localedir='locales', languages=[setlang])
+    lang = gettext.translation('all', localedir='../locales', languages=[setlang])
     lang.install()
 elif setlang != 'en':
     str_langs_en = ', '.join(langs_en)
@@ -24,7 +27,7 @@ nqualified = len(qualified)
 nregular = len(regular)
 ntotal = nqualified + nregular
 
-# initialize vacation days
+
 arrvacqualified = []
 for i in range(0, nqualified):
     arrvacqualified.append("")
