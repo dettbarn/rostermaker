@@ -15,24 +15,6 @@ def isinshift(employee, shiftstring):
     return False
 
 
-# find out if a certain employee works on a certain day
-def isinday(employee, arr, theday):
-    isinday = False
-    for ishift in range(0, nshiftsperday):
-        if isinshift(employee, arr[theday][ishift]):
-            isinday = True
-    return isinday
-
-
-def whatinday(employee, arr, theday):
-    if hasvacationthatday(employee, theday):
-        return "U"
-    for ishift in range(0, nshiftsperday):
-        if isinshift(employee, arr[theday][ishift]):
-            return shiftnames[ishift]
-    return "-"
-
-
 def setvacation(employee, vacstr):
     nqualified = len(qualified)
     nregular = len(regular)
@@ -87,27 +69,6 @@ def getnvacdays(employee):
     return len(splitted)
 
 
-# does not recognize previous months yet
-def isinalllastndays(employee, arr, currentday, ndays):
-    if currentday - ndays < 0:
-        return False  # because reaches last month, we don't know
-    for iday in range(currentday - ndays, currentday):
-        if not isinday(employee, arr, iday):
-            return False
-    return True  # enough days to test, and there hasn't been one day without this employee
-
-
-# does not recognize previous months yet
-# is in all last n days, but not the day before that
-def isinexactlyalllastndays(employee, arr, currentday, ndays):
-    if currentday - ndays - 1 < 0:
-        return False  # because reaches last month, we don't know
-    if (isinalllastndays(employee, arr, currentday, ndays) and
-       isinday(employee, arr, currentday - ndays - 1)):
-        return True
-    return False
-
-
 def addtoshift(employee, shiftstring):
     if shiftstring != "":
         shiftstring += str_sep
@@ -132,16 +93,6 @@ def getindivsched(employee, arr):
     return sched
 
 
-def hasfreeweekends(employee, arr):
-    nfreeweekends = 0
-    for i in range(0, nwedays):
-        # only check Saturdays that are followed by Sundays within the month
-        if i < nwedays - 1 and arrwe[i] + 1 == arrwe[i + 1]:
-            if (not isinday(employee, arr, arrwe[i])) and (not isinday(employee, arr, arrwe[i + 1])):
-                nfreeweekends += 1
-    return nfreeweekends
-
-
 # returns false if shifts are equal, true if not.
 # returns also false if one of shifts is 'undef' or some other non-shift meta-identifier
 def isshiftchange(shift1, shift2):
@@ -162,16 +113,6 @@ def getlastshiftname(employee, arr, curday, curshift):
                 return shiftnames[ishift]
     # reaches beginning of month, still not found, so it's undefined
     return "undef"
-
-
-# get last day, BEFORE the day currently considered
-def getlastday(employee, arr, curday):
-    lastday = -1
-    for iday in range(0, curday):
-        if isinday(employee, arr, iday):
-            lastday = iday
-    # reaches beginning of month, still not found, so it's undefined
-    return lastday
 
 
 def poplastfilled(arr):
@@ -287,25 +228,6 @@ def pickwithpriorities(itemarr, prio):
         return pickweighted(itemarr, wgtarr)
     except NonePickableException:
         return ""
-
-
-# Check if it would be ok to add this employee (rnd) at this day and shift
-def wouldbeok(rnd, arr, iday, ishift):
-    if isinshift(rnd, arr[iday][ishift]):
-        return False  # already there
-    elif (ishift >= 1 and isinshift(rnd, arr[iday][ishift - 1])):
-        return False  # already in preceding shift (same day)
-    elif (ishift == 0 and isinshift(rnd, arr[iday - 1][ishift + 2])):
-        return False  # already in preceding shift (previous day)
-    elif (ishift - 2 >= 0 and isinshift(rnd, arr[iday][ishift - 2])):
-        return False  # already in two shifts ago, same day
-    elif isinalllastndays(rnd, arr, iday, maxdaysinrow):
-        return False  # already has maximum shifts in row at this point
-    elif hasvacationthatday(rnd, iday):
-        return False  # has vacation this day
-    elif (isinalllastndays(rnd, arr, iday - 1, ndaysinrowtorequiretwofree) and not isinday(rnd, arr, iday - 1)):
-        return False  # had free yesterday, but had a big number of days in row directly before that, which requires two free days
-    return True
 
 
 # space-padded two-digit string for days: " 1"..."31"
