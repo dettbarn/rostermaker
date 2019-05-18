@@ -1,7 +1,8 @@
 import unittest
 
-exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
-exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
+from roster import Roster
+from functions import ndays
+
 
 class TestRoster(unittest.TestCase):
 
@@ -22,7 +23,7 @@ class TestRoster(unittest.TestCase):
         self.assertEqual(len(roster.arr[0]), nshiftsperday)
         for iday in range(0, roster.ndays):
             for ishift in range(0, roster.nshiftsperday):
-                self.assertEqual(roster.arr[iday][ishift],"")
+                self.assertEqual(roster.arr[iday][ishift], "")
 
     if __name__ == '__main__':
         unittest.main()

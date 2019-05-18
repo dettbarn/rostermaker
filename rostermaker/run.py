@@ -1,9 +1,9 @@
 #!/usr/local/bin/python3.5
 
-import gettext
+import gettext as gt
 
-#import functions
-#from roster import Roster
+# import functions
+# from roster import Roster
 
 exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
@@ -13,13 +13,13 @@ exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 langs = ['de']  # all translations we support
 langs_en = ['en'] + langs
 if setlang in langs:
-    lang = gettext.translation('all', localedir='../locales', languages=[setlang])
+    lang = gt.translation('all', localedir='../locales', languages=[setlang])
     lang.install()
 elif setlang != 'en':
     str_langs_en = ', '.join(langs_en)
     print("Language '%s' not supported. Only available: %s.  Continuing in English." % (setlang, str_langs_en))
 else:  # fall back to default English
-    _ = gettext.gettext
+    _ = gt.gettext
 
 
 # evaluate input

@@ -2,9 +2,10 @@
 
 import random
 
-import exceptions
+import exceptions as e
 
 exec(compile(open("input", "rb").read(), "input", 'exec'))
+
 
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee, shiftstring):
@@ -34,7 +35,6 @@ def getvacation(employee):
     # evaluate input
     nqualified = len(qualified)
     nregular = len(regular)
-    ntotal = nqualified + nregular
     for i in range(0, nqualified):
         if qualified[i] == employee:
             return arrvacqualified[i]
@@ -46,10 +46,6 @@ def getvacation(employee):
 
 
 def setthevacations():  # months start with 0 in this definition
-    # evaluate input
-    nqualified = len(qualified)
-    nregular = len(regular)
-    ntotal = nqualified + nregular
     for employee in vacations:
         setvacation(employee, vacations[employee])
 
@@ -94,10 +90,12 @@ def getindivsched(employee, arr):
 
 
 # returns false if shifts are equal, true if not.
-# returns also false if one of shifts is 'undef' or some other non-shift meta-identifier
+# returns also false if one of shifts is 'undef'
+# or if one is some other non-shift meta-identifier
 def isshiftchange(shift1, shift2):
-    if ((shift1 in shiftnames) and (shift2 in shiftnames) and shift1 != shift2):
-        return True
+    if shift1 in shiftnames and shift2 in shiftnames:
+        if shift1 != shift2:
+            return True
     else:
         return False
 
@@ -125,7 +123,8 @@ def poplastfilled(arr):
     return arr
 
 
-# give a weighted random out of n items, where the array wgtarr supplies the weights for each item
+# give a weighted random out of n items,
+# where the array wgtarr supplies the weights for each item
 # the output is an integer between 0 and n-1, denoting the randomly chosen item
 def weightedrnd(wgtarr):
     newwgtarr = wgtarr
@@ -135,7 +134,7 @@ def weightedrnd(wgtarr):
         for i in range(0, nwgts):
             newwgtarr[i] = 1
     elif min(newwgtarr) == 0 and max(newwgtarr) == 0:
-        raise AllWeightsZeroException()
+        raise e.AllWeightsZeroException()
     rndval = random.uniform(0, sum(wgtarr))
     cur = rndval
     # go through the array, to find where we have landed
@@ -162,8 +161,8 @@ def pickweighted(itemarr, wgtarr):
         return itemarr[0]
     try:
         return itemarr[weightedrnd(wgtarr)]
-    except AllWeightsZeroException:
-        raise NonePickableException
+    except e.AllWeightsZeroException():
+        raise e.NonePickableException()
         return -1
 
 
@@ -190,7 +189,8 @@ def pickwithfavorites(itemarr, favsarr, favwgt):
 # Favorites are supplied with favsarr, each weighted by favwgt
 # Others have weight 1
 # vetoarr supplies vetoed items (weight 0)
-# Veto overrides a weight, i.e. if an item is both in favsarr and vetoarr, weight will be zero
+# Veto overrides a weight,
+# i.e. if an item is both in favsarr and vetoarr, weight will be zero
 def pickwithfavoritesandvetoes(itemarr, favsarr, favwgt, vetoarr):
     nitems = len(itemarr)
     if nitems == 0:
@@ -202,13 +202,13 @@ def pickwithfavoritesandvetoes(itemarr, favsarr, favwgt, vetoarr):
     for i in range(0, nitems):
         if itemarr[i] in vetoarr:
             wgtarr.append(0)
-        elif itemarr[i] in favsarr:  # only if it's in favsarr but not in vetoarr
+        elif itemarr[i] in favsarr:  # only if in favsarr but not in vetoarr
             wgtarr.append(favwgt)
         else:  # found in neither favsarr nor in vetoarr
             wgtarr.append(1)
     try:
         return pickweighted(itemarr, wgtarr)
-    except NonePickableException:
+    except e.NonePickableException():
         return ""
 
 
@@ -226,7 +226,7 @@ def pickwithpriorities(itemarr, prio):
             wgtarr.append(1)
     try:
         return pickweighted(itemarr, wgtarr)
-    except NonePickableException:
+    except e.NonePickableException():
         return ""
 
 
@@ -271,7 +271,8 @@ def monthstr(monthno):
         return _("November")
     elif monthno == 12:
         return _("December")
-    raise IllegalMonthException(_("Error in monthstr: Illegal month number."))
+    str_illegalMonth = _("Error in monthstr: Illegal month number.")
+    raise e.IllegalMonthException(str_illegalMonth)
     return "undef"
 
 
@@ -289,9 +290,11 @@ def isleapyear(year):
 
 
 def ndays(monthno, year):
-    if monthno == 1 or monthno == 3 or monthno == 5 or monthno == 7 or monthno == 8 or monthno == 10 or monthno == 12:
+    months31 = [1, 3, 5, 7, 8, 10, 12]
+    months30 = [4, 6, 9, 11]
+    if monthno in months31:
         return 31
-    elif monthno == 4 or monthno == 6 or monthno == 9 or monthno == 11:
+    elif monthno in months30:
         return 30
     elif monthno == 2:
         if isleapyear(year):
@@ -299,5 +302,6 @@ def ndays(monthno, year):
         else:
             return 28
     else:
-        raise IllegalMonthException(_("Error in ndays: Illegal month number."))
+        str_illegalMonth = _("Error in ndays: Illegal month number.")
+        raise e.IllegalMonthException(str_illegalMonth)
         return -1

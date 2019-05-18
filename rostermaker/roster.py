@@ -50,7 +50,8 @@ class Roster:
         f.close()
 
     def getheadline(self):
-        return _("---  %s %d roster  ---") % (monthstr(self.monthno), self.year)
+        str_headline = _("---  %s %d roster  ---")
+        return str_headline % (monthstr(self.monthno), self.year)
 
     def getfullschedtable(self):
         return self.getindivschedtable(self.qualified + self.regular)
@@ -105,7 +106,8 @@ class Roster:
                     for i in range(0, kquali):
                         # weighted averaging:
                         rnd = pickwithpriorities(self.qualified, prio)
-                        # this one-shift-of-person-per-day is implicitly assumed here
+                        # this one-shift-of-person-per-day rule
+                        # is implicitly assumed here
                         # (without using the integer defined above)
                         nfails = 0
                         while not self.wouldbeok(rnd, iday, ishift):
@@ -118,7 +120,8 @@ class Roster:
                         # weighted averaging:
                         rnd = pickwithpriorities(self.regular, prio)
                         nfails = 0
-                        # this one-shift-of-person-per-day is implicitly assumed here
+                        # this one-shift-of-person-per-day rule
+                        # is implicitly assumed here
                         # (without using the integer defined above)
                         while not self.wouldbeok(rnd, iday, ishift):
                             nfails += 1
@@ -156,7 +159,9 @@ class Roster:
             clashesarr += [_("shift series")]
         if self.countshiftchangespermonth(employee) > maxshiftchangespermonth:
             clashesarr += [_("monthly shift changes")]
-        if self.countworkdays(employee) < minworkdayseachperson * (self.ndays - getnvacdays(employee)) / self.ndays:
+        availabledays = self.ndays - getnvacdays(employee)
+        mindays_corr = minworkdayseachperson * availabledays / self.ndays
+        if self.countworkdays(employee) < mindays_corr:
             clashesarr += [_("work days")]
         return clashesarr
 
@@ -192,7 +197,6 @@ class Roster:
                 isinday = True
         return isinday
 
-
     def whatinday(self, employee, theday):
         if hasvacationthatday(employee, theday):
             return "U"
@@ -208,19 +212,18 @@ class Roster:
         for iday in range(currentday - ndays, currentday):
             if not self.isinday(employee, iday):
                 return False
-        return True  # enough days to test, and there hasn't been one day without this employee
-
+        return True  # enough days to test,
+        # and there hasn't been one day without this employee
 
     # does not recognize previous months yet
     # is in all last n days, but not the day before that
     def isinexactlyalllastndays(self, employee, currentday, ndays):
         if currentday - ndays - 1 < 0:
             return False  # because reaches last month, we don't know
-        if (self.isinalllastndays(employee, currentday, ndays) and
-           self.isinday(employee, currentday - ndays - 1)):
-            return True
+        if self.isinalllastndays(employee, currentday, ndays):
+            if self.isinday(employee, currentday - ndays - 1):
+                return True
         return False
-
 
     # Check if it would be ok to add this employee (rnd) at this day and shift
     def wouldbeok(self, rnd, iday, ishift):
@@ -236,10 +239,12 @@ class Roster:
             return False  # already has maximum shifts in row at this point
         elif hasvacationthatday(rnd, iday):
             return False  # has vacation this day
-        elif (self.isinalllastndays(rnd, iday - 1, ndaysinrowtorequiretwofree) and not self.isinday(rnd, iday - 1)):
-            return False  # had free yesterday, but had a big number of days in row directly before that, which requires two free days
+        elif self.isinalllastndays(rnd, iday - 1, ndaysinrowtorequiretwofree):
+            if not self.isinday(rnd, iday - 1):
+                return False  # had free yesterday,
+                # but had a big number of days in row directly before that,
+                # which requires two free days
         return True
-
 
     # get last day, BEFORE the day currently considered
     def getlastday(self, employee, curday):
@@ -250,18 +255,17 @@ class Roster:
         # reaches beginning of month, still not found, so it's undefined
         return lastday
 
-
     def hasfreeweekends(self, employee):
         nfreeweekends = 0
         for i in range(0, nwedays):
-            # only check Saturdays that are followed by Sundays within the month
+            # only check Saturdays followed by Sundays within the month
             if i < nwedays - 1 and arrwe[i] + 1 == arrwe[i + 1]:
-                if (not self.isinday(employee, arrwe[i])) and (not self.isinday(employee, arrwe[i + 1])):
-                    nfreeweekends += 1
+                if not self.isinday(employee, arrwe[i]):
+                    if not self.isinday(employee, arrwe[i + 1]):
+                        nfreeweekends += 1
         return nfreeweekends
 
-
-    def getindivsched(self.employee):
+    def getindivsched(self, employee):
         sched = ""
         for i in range(0, ndays):
             sched += str(i + 1) + " " + self.whatinday(employee, i) + "\n"
