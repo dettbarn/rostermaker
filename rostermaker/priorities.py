@@ -1,4 +1,7 @@
 import exceptions as e
+import gettext
+
+_ = gettext.gettext
 
 
 # weights (values) assigned to employees (keys) in a dictionary structure.
@@ -18,6 +21,8 @@ class Priorities:
     def scaleweight(self, key, scale):
         if key not in self.dict.keys():
             self.dict[key] = 1  # init with 1 if needed
+        if scale < 0:
+            raise e.IllegalNegativeException(_("Weights cannot be negative!"))
         self.dict[key] *= scale
 
     def getweight(self, key):
@@ -27,7 +32,7 @@ class Priorities:
         return not bool(self.dict)
 
     def max(self):
-        if self.isempty:
+        if self.isempty():
             str_err = _("Priorities structure is empty!")
             raise e.StructureEmptyException(str_err)
         maximum = 0
@@ -37,7 +42,7 @@ class Priorities:
         return maximum
 
     def min(self):
-        if self.isempty:
+        if self.isempty():
             str_err = _("Priorities structure is empty!")
             raise e.StructureEmptyException(str_err)
         first = 1
