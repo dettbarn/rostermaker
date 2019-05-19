@@ -12,3 +12,7 @@ class IllegalNegativeException(Exception):
 
 class IllegalMonthException(Exception):
     pass
+
+
+class StructureEmptyException(Exception):
+    pass
