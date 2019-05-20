@@ -37,7 +37,7 @@ class Roster:
         self.printtable()
 
     def export(self, prefix, fileformat):
-        supported = ["out"]
+        supported = ["out", "csv"]
         if fileformat not in supported:
             print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
             fileformat = "out"
@@ -47,6 +47,9 @@ class Roster:
         if fileformat == "out":
             f.write(self.getheadline() + "\r\n")
             f.write(self.getfullschedtable() + "\r\n")
+        if fileformat == "csv":
+            f.write("# " + self.getheadline() + "\r\n")
+            f.write(self.getseptable(self.qualified + self.regular, ',') + "\r\n")
         f.close()
 
     def getheadline(self):
@@ -64,6 +67,20 @@ class Roster:
                 schedtab += " " + self.whatinday(memb, iday)
             schedtab += "\n"
         return schedtab
+
+    def getseprow(self, thesemembers, iday, sep):
+        row = ""
+        row += daystr(iday + 1)
+        for memb in thesemembers:
+            row += sep + self.whatinday(memb, iday)
+        row += "\r\n"
+        return row
+
+    def getseptable(self, thesemembers, sep):
+        table = "# (day)," + ','.join(self.qualified + self.regular) + "\r\n"
+        for iday in range(0, self.ndays):
+            table += self.getseprow(thesemembers, iday, sep)
+        return table
 
     def tryfill(self):
         for iday in range(0, self.ndays):

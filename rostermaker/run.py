@@ -87,6 +87,7 @@ if ok:
     print(_("Worked on try number: # %d.") % ntries)
     roster.printfull()
     roster.export("roster", "out")
+    roster.export("roster", "csv")
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
@@ -101,3 +102,4 @@ else:
         exportq = input(_("Export though? (y/n)  "))
     if exportq == 'y':
         roster.export("failedroster", "out")
+        roster.export("failedroster", "csv")
