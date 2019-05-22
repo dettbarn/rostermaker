@@ -101,6 +101,10 @@ msgstr "Fehler in ndays: Illegale Monatsnummer."
 msgid "Weights cannot be negative!"
 msgstr "Gewichte können nicht negativ sein!"
 
+#: rostermaker/priorities.py:36 rostermaker/priorities.py:46
+msgid "Priorities structure is empty!"
+msgstr "Priorities Struktur ist leer!"
+
 #: roster.py:42
 msgid "Error: file format \"%s\" not supported. Exporting generic .out file."
 msgstr "Fehler: Dateiformat \"%s\" nicht unterstützt. Exportiere generische .out Datei."
@@ -108,6 +112,10 @@ msgstr "Fehler: Dateiformat \"%s\" nicht unterstützt. Exportiere generische .ou
 #: roster.py:30
 msgid "---  %s %d roster  ---"
 msgstr "---  %s %d Dienstplan  ---"
+
+#: rostermaker/roster.py:80
+msgid "# (day),"
+msgstr "# (Tag),"
 
 #: roster.py:129
 msgid "free weekends"

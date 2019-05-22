@@ -77,7 +77,7 @@ class Roster:
         return row
 
     def getseptable(self, thesemembers, sep):
-        table = "# (day)," + ','.join(self.qualified + self.regular) + "\r\n"
+        table = _("# (day),") + ','.join(self.qualified + self.regular) + "\r\n"
         for iday in range(0, self.ndays):
             table += self.getseprow(thesemembers, iday, sep)
         return table
