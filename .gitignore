@@ -13,3 +13,9 @@ run.po
 *.mo
 *.pot
 env/
+misc/
+*roster_*.aux
+*roster_*.log
+*roster_*.pdf
+*roster_*.tex
+texput.log

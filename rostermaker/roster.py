@@ -37,7 +37,7 @@ class Roster:
         self.printtable()
 
     def export(self, prefix, fileformat):
-        supported = ["out", "csv"]
+        supported = ["out", "csv", "tex"]
         if fileformat not in supported:
             print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
             fileformat = "out"
@@ -50,6 +50,25 @@ class Roster:
         if fileformat == "csv":
             f.write("# " + self.getheadline() + "\r\n")
             f.write(self.getseptable(self.qualified + self.regular, ',') + "\r\n")
+        if fileformat == "tex":
+            texnl = "\n"
+            f.write("\\documentclass[10pt]{article}" + texnl)
+            f.write("\\title{" + self.getheadline() + "}" + texnl)
+            f.write("\\begin{document}" + texnl)
+            f.write("\\maketitle" + texnl)
+            f.write("\\begin{table}[ht]" + texnl)
+            f.write("\\centering" + texnl)
+            f.write("\\begin{tabular}{")
+            for i in (["(day)"] + self.qualified + self.regular):
+                f.write("l")
+            f.write("}" + texnl)
+            f.write(" & ".join(self.qualified + self.regular) + " \\\\" + texnl)
+            f.write("\\hline" + texnl)
+            for i in range(0, self.ndays):
+                f.write(self.getseprow(self.qualified + self.regular, i, " & "," \\\\" + texnl))
+            f.write("\\end{tabular}" + texnl)
+            f.write("\\end{table}" + texnl)
+            f.write("\\end{document}" + texnl)
         f.close()
 
     def getheadline(self):
@@ -68,18 +87,18 @@ class Roster:
             schedtab += "\n"
         return schedtab
 
-    def getseprow(self, thesemembers, iday, sep):
+    def getseprow(self, thesemembers, iday, sep, end):
         row = ""
         row += daystr(iday + 1)
         for memb in thesemembers:
             row += sep + self.whatinday(memb, iday)
-        row += "\r\n"
+        row += end
         return row
 
     def getseptable(self, thesemembers, sep):
         table = _("# (day),") + ','.join(self.qualified + self.regular) + "\r\n"
         for iday in range(0, self.ndays):
-            table += self.getseprow(thesemembers, iday, sep)
+            table += self.getseprow(thesemembers, iday, sep, "\r\n")
         return table
 
     def tryfill(self):

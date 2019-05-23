@@ -86,6 +86,7 @@ if ok:
     roster.printfull()
     roster.export("roster", "out")
     roster.export("roster", "csv")
+    roster.export("roster", "tex")
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
@@ -101,3 +102,4 @@ else:
     if exportq == 'y':
         roster.export("failedroster", "out")
         roster.export("failedroster", "csv")
+        roster.export("failedroster", "tex")
