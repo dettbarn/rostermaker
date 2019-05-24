@@ -53,19 +53,21 @@ class Roster:
         if fileformat == "tex":
             texnl = "\n"
             f.write("\\documentclass[10pt]{article}" + texnl)
+            f.write("\\usepackage[margin=2cm]{geometry}" + texnl)
             f.write("\\title{" + self.getheadline() + "}" + texnl)
             f.write("\\begin{document}" + texnl)
             f.write("\\maketitle" + texnl)
             f.write("\\begin{table}[ht]" + texnl)
             f.write("\\centering" + texnl)
             f.write("\\begin{tabular}{")
-            for i in (["(day)"] + self.qualified + self.regular):
-                f.write("l")
+            f.write("r")  # day number right-aligned
+            for i in (self.qualified + self.regular):
+                f.write("c")
             f.write("}" + texnl)
-            f.write(" & ".join(self.qualified + self.regular) + " \\\\" + texnl)
+            f.write(" & ".join([""] + self.qualified + self.regular) + " \\\\" + texnl)
             f.write("\\hline" + texnl)
             for i in range(0, self.ndays):
-                f.write(self.getseprow(self.qualified + self.regular, i, " & "," \\\\" + texnl))
+                f.write(self.getseprow(self.qualified + self.regular, i, " & ", " \\\\" + texnl))
             f.write("\\end{tabular}" + texnl)
             f.write("\\end{table}" + texnl)
             f.write("\\end{document}" + texnl)
