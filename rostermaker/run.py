@@ -33,10 +33,9 @@ arrvacregular = []
 for i in range(0, nregular):
     arrvacregular.append("")
 
-setthevacations()
-
 # Initialize roster
 roster = Roster(nshiftsperday, qualified, regular, monthno, year)
+roster.setvacations(vacations)
 
 # Calculate the weekend-days
 arrwe = []

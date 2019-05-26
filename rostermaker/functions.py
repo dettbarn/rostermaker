@@ -14,55 +14,6 @@ def isinshift(employee, shiftstring):
     return False
 
 
-def setvacation(employee, vacstr):
-    nqualified = len(qualified)
-    nregular = len(regular)
-    for i in range(0, nqualified):
-        if qualified[i] == employee:
-            arrvacqualified[i] = vacstr
-            return 0
-    for i in range(0, nregular):
-        if regular[i] == employee:
-            arrvacregular[i] = vacstr
-            return 0
-    print(_("Error in setvacation: Employee \"%s\" not found.") % employee)
-    return 1
-
-
-def getvacation(employee):
-    # evaluate input
-    nqualified = len(qualified)
-    nregular = len(regular)
-    for i in range(0, nqualified):
-        if qualified[i] == employee:
-            return arrvacqualified[i]
-    for i in range(0, nregular):
-        if regular[i] == employee:
-            return arrvacregular[i]
-    print(_("Error in getvacation: Employee \"%s\" not found.") % employee)
-    return 1
-
-
-def setthevacations():  # months start with 0 in this definition
-    for employee in vacations:
-        setvacation(employee, vacations[employee])
-
-
-def hasvacationthatday(employee, theday):
-    strvacdays = getvacation(employee)
-    arrvacdays = strvacdays.split(",")
-    for vacday in arrvacdays:
-        if vacday == str(theday):
-            return True
-    return False
-
-
-def getnvacdays(employee):
-    vacstr = getvacation(employee)
-    splitted = vacstr.split(str_sep)
-    return len(splitted)
-
-
 def addtoshift(employee, shiftstring):
     if shiftstring != "":
         shiftstring += str_sep

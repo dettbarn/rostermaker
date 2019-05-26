@@ -19,6 +19,44 @@ class Roster:
             for ishift in range(0, self.nshiftsperday):
                 x.append("")
             (self.arr).append(x)
+        nqualified = len(self.qualified)
+        nregular = len(self.regular)
+        self.arrvacqualified = []
+        self.arrvacregular = []
+        for i in range(0, nqualified):
+            self.arrvacqualified.append("")
+        for i in range(0, nregular):
+            self.arrvacregular.append("")
+
+    def setvacation(self, employee, vacstr):
+        nqualified = len(self.qualified)
+        nregular = len(self.regular)
+        for i in range(0, nqualified):
+            if qualified[i] == employee:
+                self.arrvacqualified[i] = vacstr
+                return 0
+        for i in range(0, nregular):
+            if regular[i] == employee:
+                self.arrvacregular[i] = vacstr
+                return 0
+        print(_("Error in setvacation: Employee \"%s\" not found.") % employee)
+        return 1
+
+    def getvacation(self, employee):
+        nqualified = len(self.qualified)
+        nregular = len(self.regular)
+        for i in range(0, nqualified):
+            if self.qualified[i] == employee:
+                return self.arrvacqualified[i]
+        for i in range(0, nregular):
+            if self.regular[i] == employee:
+                return self.arrvacregular[i]
+        print(_("Error in getvacation: Employee \"%s\" not found.") % employee)
+        return 1
+
+    def setvacations(self, vacations):  # months start with 0 in this definition
+        for employee in vacations:
+            self.setvacation(employee, vacations[employee])
 
     def makeempty(self):
         for iday in range(0, self.ndays):
@@ -197,7 +235,7 @@ class Roster:
             clashesarr += [_("shift series")]
         if self.countshiftchangespermonth(employee) > maxshiftchangespermonth:
             clashesarr += [_("monthly shift changes")]
-        availabledays = self.ndays - getnvacdays(employee)
+        availabledays = self.ndays - self.getnvacdays(employee)
         mindays_corr = minworkdayseachperson * availabledays / self.ndays
         if self.countworkdays(employee) < mindays_corr:
             clashesarr += [_("work days")]
@@ -236,7 +274,7 @@ class Roster:
         return isinday
 
     def whatinday(self, employee, theday):
-        if hasvacationthatday(employee, theday):
+        if self.hasvacationthatday(employee, theday):
             return "U"
         for ishift in range(0, nshiftsperday):
             if isinshift(employee, self.arr[theday][ishift]):
@@ -275,7 +313,7 @@ class Roster:
             return False  # already in two shifts ago, same day
         elif self.isinalllastndays(rnd, iday, maxdaysinrow):
             return False  # already has maximum shifts in row at this point
-        elif hasvacationthatday(rnd, iday):
+        elif self.hasvacationthatday(rnd, iday):
             return False  # has vacation this day
         elif self.isinalllastndays(rnd, iday - 1, ndaysinrowtorequiretwofree):
             if not self.isinday(rnd, iday - 1):
@@ -308,3 +346,16 @@ class Roster:
         for i in range(0, ndays):
             sched += str(i + 1) + " " + self.whatinday(employee, i) + "\n"
         return sched
+
+    def hasvacationthatday(self, employee, theday):
+        strvacdays = self.getvacation(employee)
+        arrvacdays = strvacdays.split(",")
+        for vacday in arrvacdays:
+            if vacday == str(theday):
+                return True
+        return False
+
+    def getnvacdays(self, employee):
+        vacstr = self.getvacation(employee)
+        splitted = vacstr.split(str_sep)
+        return len(splitted)
