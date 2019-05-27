@@ -83,9 +83,7 @@ while (not ok) and ntries < maxntries:
 if ok:
     print(_("Worked on try number: # %d.") % ntries)
     roster.printfull()
-    roster.export("roster", "out")
-    roster.export("roster", "csv")
-    roster.export("roster", "tex")
+    roster.exportfull("roster", ".")
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
@@ -99,6 +97,4 @@ else:
     while exportq not in ['y', 'n']:
         exportq = input(_("Export though? (y/n)  "))
     if exportq == 'y':
-        roster.export("failedroster", "out")
-        roster.export("failedroster", "csv")
-        roster.export("failedroster", "tex")
+        roster.exportfull("failedroster", ".")

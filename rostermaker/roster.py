@@ -74,14 +74,20 @@ class Roster:
         self.print()
         self.printtable()
 
-    def export(self, prefix, fileformat):
+    # export in all supported file formats
+    def exportfull(self, prefix, folder="."):
+        supported = ["out", "csv", "tex"]
+        for fileformat in supported:
+            self.export(prefix, fileformat, folder)
+
+    def export(self, prefix, fileformat, folder="."):
         supported = ["out", "csv", "tex"]
         if fileformat not in supported:
             print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
             fileformat = "out"
         stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         ym = str(year) + "-" + twodigit(monthno)
-        f = open(prefix + "_" + ym + "_" + stamp + "." + fileformat, "w+")
+        f = open(folder + "/" + prefix + "_" + ym + "_" + stamp + "." + fileformat, "w+")
         if fileformat == "out":
             f.write(self.getheadline() + "\r\n")
             f.write(self.getfullschedtable() + "\r\n")
