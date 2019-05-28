@@ -74,15 +74,15 @@ class Roster:
         self.print()
         self.printtable()
 
+    supportedformats = ["out", "csv", "tex"]
+
     # export in all supported file formats
     def exportfull(self, prefix, folder="."):
-        supported = ["out", "csv", "tex"]
-        for fileformat in supported:
+        for fileformat in Roster.supportedformats:
             self.export(prefix, fileformat, folder)
 
     def export(self, prefix, fileformat, folder="."):
-        supported = ["out", "csv", "tex"]
-        if fileformat not in supported:
+        if fileformat not in Roster.supportedformats:
             print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
             fileformat = "out"
         stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
