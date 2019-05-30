@@ -2,7 +2,10 @@ import random
 
 import exceptions as e
 
-exec(compile(open("input", "rb").read(), "input", 'exec'))
+try:
+    exec(compile(open("input", "rb").read(), "input", 'exec'))
+except FileNotFoundError:
+    print("No input file found.")
 
 
 # find out if a certain employee is in a certain shiftstring

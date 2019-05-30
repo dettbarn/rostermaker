@@ -1,9 +1,13 @@
+import sys
 import gettext as gt
 
 # import functions
 # from roster import Roster
 
-exec(compile(open("input", "rb").read(), "input", 'exec'))
+try:
+    exec(compile(open("input", "rb").read(), "input", 'exec'))
+except FileNotFoundError:
+    sys.exit("No input file found. Aborting.")
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 
