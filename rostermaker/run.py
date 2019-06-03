@@ -87,7 +87,8 @@ while (not ok) and ntries < maxntries:
 if ok:
     print(_("Worked on try number: # %d.") % ntries)
     roster.printfull()
-    roster.exportfull("roster", ".")
+    exportq = 'y'
+    prefix = 'roster'
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
@@ -100,5 +101,11 @@ else:
     exportq = "undef"
     while exportq not in ['y', 'n']:
         exportq = input(_("Export though? (y/n)  "))
-    if exportq == 'y':
-        roster.exportfull("failedroster", ".")
+    prefix = 'failedroster'
+
+if exportq == 'y':
+    folderq = input(_("Please enter directory (empty for default): "))
+    if folderq == '':
+        roster.exportfull(prefix)
+    else:
+        roster.exportfull(prefix, folderq)

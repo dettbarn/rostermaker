@@ -17,174 +17,178 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: de\n"
 
-#: functions.py:44
+#: rostermaker/functions.py:44
 msgid "Error in setvacation: Employee \"%s\" not found."
 msgstr "Fehler in setvacation: Angestellter \"%s\" nicht gefunden."
 
-#: functions.py:55
+#: rostermaker/functions.py:55
 msgid "Error in getvacation: Employee \"%s\" not found."
 msgstr "Fehler in getvacation: Angestellter \"%s\" nicht gefunden."
 
-#: functions.py:205
+#: rostermaker/functions.py:205
 msgid "No negative weights allowed. Assuming all weights to be unity."
 msgstr "Keine negativen Gewichte erlaubt. Alle Gewichte werden als eins angenommen."
 
-#: functions.py:229 functions.py:247 functions.py:268 functions.py:290
+#: rostermaker/functions.py:229 functions.py:247 functions.py:268 functions.py:290
 msgid "ERROR: Zero items given."
 msgstr "FEHLER: null Elemente gegeben."
 
-#: functions.py:232
+#: rostermaker/functions.py:232
 msgid "ERROR: itemarr and wgtarr have different lengths. I give you the first item."
 msgstr "FEHLER: itemarr und wgtarr haben verschiedene Länge. Ich gebe Ihnen das erste Element."
 
-#: functions.py:250 functions.py:271
+#: rostermaker/functions.py:250 functions.py:271
 msgid "ERROR: Favorites must have positive weight."
 msgstr "FEHLER: Favoriten müssen positives Gewicht haben."
 
-#: functions.py:309
+#: rostermaker/functions.py:309
 msgid "January"
 msgstr "Januar"
 
-#: functions.py:311
+#: rostermaker/functions.py:311
 msgid "February"
 msgstr "Februar"
 
-#: functions.py:313
+#: rostermaker/functions.py:313
 msgid "March"
 msgstr "März"
 
-#: functions.py:315
+#: rostermaker/functions.py:315
 msgid "April"
 msgstr "April"
 
-#: functions.py:317
+#: rostermaker/functions.py:317
 msgid "May"
 msgstr "Mai"
 
-#: functions.py:319
+#: rostermaker/functions.py:319
 msgid "June"
 msgstr "Juni"
 
-#: functions.py:321
+#: rostermaker/functions.py:321
 msgid "July"
 msgstr "Juli"
 
-#: functions.py:323
+#: rostermaker/functions.py:323
 msgid "August"
 msgstr "August"
 
-#: functions.py:325
+#: rostermaker/functions.py:325
 msgid "September"
 msgstr "September"
 
-#: functions.py:327
+#: rostermaker/functions.py:327
 msgid "October"
 msgstr "Oktober"
 
-#: functions.py:329
+#: rostermaker/functions.py:329
 msgid "November"
 msgstr "November"
 
-#: functions.py:331
+#: rostermaker/functions.py:331
 msgid "December"
 msgstr "Dezember"
 
-#: functions.py:332
+#: rostermaker/functions.py:332
 msgid "Error in monthstr: Illegal month number."
 msgstr "Fehler in monthstr: Illegale Monatsnummer."
 
-#: functions.py:359
+#: rostermaker/functions.py:359
 msgid "Error in ndays: Illegal month number."
 msgstr "Fehler in ndays: Illegale Monatsnummer."
 
-#: priorities.py:16
+#: rostermaker/priorities.py:16
 msgid "Weights cannot be negative!"
 msgstr "Gewichte können nicht negativ sein!"
 
-#: rostermaker/priorities.py:36 rostermaker/priorities.py:46
+#: rostermaker/rostermaker/priorities.py:36 rostermaker/priorities.py:46
 msgid "Priorities structure is empty!"
 msgstr "Priorities Struktur ist leer!"
 
-#: roster.py:42
+#: rostermaker/roster.py:42
 msgid "Error: file format \"%s\" not supported. Exporting generic .out file."
 msgstr "Fehler: Dateiformat \"%s\" nicht unterstützt. Exportiere generische .out Datei."
 
-#: roster.py:30
+#: rostermaker/roster.py:30
 msgid "---  %s %d roster  ---"
 msgstr "---  %s %d Dienstplan  ---"
 
-#: rostermaker/roster.py:80
+#: rostermaker/rostermaker/roster.py:80
 msgid "# (day),"
 msgstr "# (Tag),"
 
-#: roster.py:129
+#: rostermaker/roster.py:129
 msgid "free weekends"
 msgstr "freie Wochenenden"
 
-#: roster.py:131
+#: rostermaker/roster.py:131
 msgid "shift series"
 msgstr "Schichtserien"
 
-#: roster.py:133
+#: rostermaker/roster.py:133
 msgid "monthly shift changes"
 msgstr "Schichtwechsel im Monat"
 
-#: roster.py:135
+#: rostermaker/roster.py:135
 msgid "work days"
 msgstr "Arbeitstage"
 
-#: run.py:43
+#: rostermaker/run.py:43
 msgid "Number of qualified employees: %d"
 msgstr "Anzahl Fachkräfte: %d"
 
-#: run.py:44
+#: rostermaker/run.py:44
 msgid "Number of other employees: %d"
 msgstr "Anzahl anderer Mitarbeiter: %d"
 
-#: run.py:45
+#: rostermaker/run.py:45
 msgid "Weekend days: %s"
 msgstr "Wochenendtage: %s"
 
-#: run.py:46
+#: rostermaker/run.py:46
 msgid "Number of weekend days: %d"
 msgstr "Anzahl Wochenendtage: %d"
 
-#: run.py:53
+#: rostermaker/run.py:53
 msgid "Starting calculation."
 msgstr "Starte Berechnung."
 
-#: run.py:62
+#: rostermaker/run.py:62
 msgid "Try #"
 msgstr "Versuch #"
 
-#: run.py:80
+#: rostermaker/run.py:80
 msgid "Calculation stopped by KeyboardInterrupt."
 msgstr "Berechnung angehalten durch KeyboardInterrupt."
 
-#: run.py:83
+#: rostermaker/run.py:83
 msgid "Calculation stopped by SystemExit."
 msgstr "Berechnung angehalten durch SystemExit."
 
-#: run.py:86
+#: rostermaker/run.py:86
 msgid "Unknown error occurred during calculation."
 msgstr "Ein unbekannter Fehler ist während der Berechnung aufgetreten."
 
-#: run.py:90
+#: rostermaker/run.py:90
 msgid "Worked on try number: # %d."
 msgstr "Es hat geklappt bei Versuch Nummer # %d."
 
-#: run.py:95
+#: rostermaker/run.py:95
 msgid "Did not work after %d tries."
 msgstr "Es hat selbst nach %d Versuchen nicht geklappt."
 
-#: run.py:97
+#: rostermaker/run.py:97
 msgid "This is what I have:"
 msgstr "Dies ist was ich habe:"
 
-#: run.py:111
+#: rostermaker/run.py:111
 msgid "%s problems: %s"
 msgstr "%s Probleme: %s"
 
-#: run.py:98
+#: rostermaker/run.py:98
 msgid "Export though? (y/n)  "
 msgstr "Dennoch exportieren? (y/n)  "
+
+#: rostermaker/run.py:107
+msgid "Please enter directory (empty for default): "
+msgstr "Bitte Verzeichnis eingeben (leerlassen für Default): "
