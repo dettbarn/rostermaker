@@ -142,7 +142,8 @@ class Roster:
         return row
 
     def getseptable(self, thesemembers, sep):
-        table = _("# (day),") + ','.join(self.qualified + self.regular) + "\r\n"
+        pref = _("# (day),")
+        table = pref + ','.join(self.qualified + self.regular) + "\r\n"
         for iday in range(0, self.ndays):
             table += self.getseprow(thesemembers, iday, sep, "\r\n")
         return table
@@ -197,7 +198,8 @@ class Roster:
                             if nfails > maxnfails:
                                 return 1
                             rnd = pickwithpriorities(self.qualified, prio)
-                        self.arr[iday][ishift] = addtoshift(rnd, self.arr[iday][ishift])
+                        oldstr = self.arr[iday][ishift]
+                        self.arr[iday][ishift] = addtoshift(rnd, oldstr)
                     for i in range(0, kreg):
                         # weighted averaging:
                         rnd = pickwithpriorities(self.regular, prio)
@@ -210,7 +212,8 @@ class Roster:
                             if nfails > maxnfails:
                                 return 2
                             rnd = pickwithpriorities(self.regular, prio)
-                        self.arr[iday][ishift] = addtoshift(rnd, self.arr[iday][ishift])
+                        oldstr = self.arr[iday][ishift]
+                        self.arr[iday][ishift] = addtoshift(rnd, oldstr)
         return 0
 
     # find the maximum number of shift changes

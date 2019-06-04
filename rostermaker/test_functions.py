@@ -18,13 +18,18 @@ class TestFunctions(unittest.TestCase):
     def test_addtoshift(self):
         self.assertEqual(addtoshift("First", ""), "First")
         self.assertEqual(addtoshift("Second", "First"), "First,Second")
-        self.assertEqual(addtoshift("Third", "First,Second"), "First,Second,Third")
+        fin = "First,Second,Third"
+        self.assertEqual(addtoshift("Third", "First,Second"), fin)
 
     def test_emptyarr(self):
-        self.assertEqual(emptyarr(3, 3), [["", "", ""], ["", "", ""], ["", "", ""]])
-        self.assertNotEqual(emptyarr(3, 3), [["", "", ""], ["", "", ""], ["", ""]])
-        self.assertEqual(emptyarr(2, 4), [["", "", "", ""], ["", "", "", ""]])
-        self.assertEqual(emptyarr(4, 2), [["", ""], ["", ""], ["", ""], ["", ""]])
+        b = [["", "", ""], ["", "", ""], ["", "", ""]]
+        self.assertEqual(emptyarr(3, 3), b)
+        b = [["", "", ""], ["", "", ""], ["", ""]]
+        self.assertNotEqual(emptyarr(3, 3), b)
+        b = [["", "", "", ""], ["", "", "", ""]]
+        self.assertEqual(emptyarr(2, 4), b)
+        b = [["", ""], ["", ""], ["", ""], ["", ""]]
+        self.assertEqual(emptyarr(4, 2), b)
 
     def test_twodigit(self):
         self.assertEqual(twodigit(7), "07")

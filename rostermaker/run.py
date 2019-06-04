@@ -19,7 +19,10 @@ if setlang in langs:
     lang.install()
 elif setlang != 'en':
     str_langs_en = ', '.join(langs_en)
-    print("Language '%s' not supported. Only available: %s.  Continuing in English." % (setlang, str_langs_en))
+    errp1 = "Language '%s' not supported." % setlang
+    errp2 = "Only available: %s." % str_langs_en
+    errp3 = "Continuing in English."
+    print(' '.join([errp1, errp2, errp3]))
 else:  # fall back to default English
     _ = gt.gettext
 
