@@ -1,9 +1,35 @@
 import unittest
 
+from functions import isinshift, addtoshift, emptyarr
 from functions import twodigit, isleapyear, ndays
 
 
 class TestFunctions(unittest.TestCase):
+
+    def test_isinshift(self):
+        self.assertTrue(isinshift("Eric", "Stan,Kyle,Eric,Kenny"))
+        self.assertTrue(isinshift("Tina", "Louise,Gene,Tina"))
+        self.assertTrue(isinshift("Hayley", "Hayley,Steve,Roger,Klaus"))
+        self.assertFalse(isinshift("Bart", "Fry,Leela,Zoidberg"))
+        self.assertFalse(isinshift("Stewie", "Hero,Toot,Wooldoor"))
+        self.assertFalse(isinshift("wRoNgCaSe", "wrongcase,Wrongcase"))
+        self.assertFalse(isinshift("sym_bols", "Symbols,symbols"))
+
+    def test_addtoshift(self):
+        self.assertEqual(addtoshift("First", ""), "First")
+        self.assertEqual(addtoshift("Second", "First"), "First,Second")
+        fin = "First,Second,Third"
+        self.assertEqual(addtoshift("Third", "First,Second"), fin)
+
+    def test_emptyarr(self):
+        b = [["", "", ""], ["", "", ""], ["", "", ""]]
+        self.assertEqual(emptyarr(3, 3), b)
+        b = [["", "", ""], ["", "", ""], ["", ""]]
+        self.assertNotEqual(emptyarr(3, 3), b)
+        b = [["", "", "", ""], ["", "", "", ""]]
+        self.assertEqual(emptyarr(2, 4), b)
+        b = [["", ""], ["", ""], ["", ""], ["", ""]]
+        self.assertEqual(emptyarr(4, 2), b)
 
     def test_twodigit(self):
         self.assertEqual(twodigit(7), "07")

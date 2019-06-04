@@ -19,7 +19,10 @@ if setlang in langs:
     lang.install()
 elif setlang != 'en':
     str_langs_en = ', '.join(langs_en)
-    print("Language '%s' not supported. Only available: %s.  Continuing in English." % (setlang, str_langs_en))
+    errp1 = "Language '%s' not supported." % setlang
+    errp2 = "Only available: %s." % str_langs_en
+    errp3 = "Continuing in English."
+    print(' '.join([errp1, errp2, errp3]))
 else:  # fall back to default English
     _ = gt.gettext
 
@@ -87,7 +90,8 @@ while (not ok) and ntries < maxntries:
 if ok:
     print(_("Worked on try number: # %d.") % ntries)
     roster.printfull()
-    roster.exportfull("roster", ".")
+    exportq = 'y'
+    prefix = 'roster'
 else:
     print(_("Did not work after %d tries.") % ntries)
     if printfailedoutput is True:
@@ -100,5 +104,11 @@ else:
     exportq = "undef"
     while exportq not in ['y', 'n']:
         exportq = input(_("Export though? (y/n)  "))
-    if exportq == 'y':
-        roster.exportfull("failedroster", ".")
+    prefix = 'failedroster'
+
+if exportq == 'y':
+    folderq = input(_("Please enter directory (empty for default): "))
+    if folderq == '':
+        roster.exportfull(prefix)
+    else:
+        roster.exportfull(prefix, folderq)

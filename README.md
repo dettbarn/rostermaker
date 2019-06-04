@@ -27,6 +27,6 @@ Currently, also the output files will be stored in the rostermaker/ subfolder.
 
 ## Contribute
 
-When this project is made public, you can in principle contribute. Small stuff can be done at any time. I will name larger challenges under "Issues".
+When this project is made public, you can in principle contribute to it. Small stuff can be done at any time. I will name larger challenges under "Issues".
 
-Please make sure all test_*.py files and flake8 finish successfully before submitting a PR.
+Please look at [CONTRIBUTE.md](CONTRIBUTE.md) to see how and where one can contribute.

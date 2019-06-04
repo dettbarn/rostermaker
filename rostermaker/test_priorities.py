@@ -39,7 +39,8 @@ class TestPriorities(unittest.TestCase):
         self.assertEqual(prio.dict["pears"], 2)
         prio.scaleweight("bananas", 4.1)
         self.assertEqual(prio.dict["bananas"], 4.1)
-        self.assertRaises(e.IllegalNegativeException, prio.scaleweight, "pears", -2)
+        exc = e.IllegalNegativeException
+        self.assertRaises(exc, prio.scaleweight, "pears", -2)
 
     def test_getweight(self):
         prio = p.Priorities()
@@ -47,7 +48,8 @@ class TestPriorities(unittest.TestCase):
         self.assertEqual(prio.getweight("some"), 3)
         prio.scaleweight("some", 2)
         self.assertEqual(prio.getweight("some"), 6)
-        self.assertRaises(e.IllegalNegativeException, prio.scaleweight, "some", -2)
+        exc = e.IllegalNegativeException
+        self.assertRaises(exc, prio.scaleweight, "some", -2)
         self.assertEqual(prio.getweight("some"), 6)
 
     def test_isempty(self):
