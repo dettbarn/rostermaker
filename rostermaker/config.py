@@ -59,19 +59,80 @@ class Config:
     def setvacation(self, employee, emplvac):
         self.vacations[employee] = emplvac
 
-    def setrestrictions(self, restr):
-        self.restr = restr
+    def setrestrictions(self, dict):
+        self.restr = re.Restrictions()
+        self.restr._set(dict)
 
     # inspired by https://blender.stackexchange.com/a/1880
     def str(self):
         st = ""
         for attr in vars(self):
             if hasattr(self, attr) and attr != "restr":
-                st += ("config.%s = %s" % (attr, getattr(self, attr))) + "\n"
-        st += "config.setrestrictions(%s)" % restr.dict
+                # string attributes have to be put in quotes
+                if attr == 'str_sep' or attr == 'setlang':
+                    st += ("config.%s = '%s'" % (attr, getattr(self, attr))) + "\n"
+                else:
+                    st += ("config.%s = %s" % (attr, getattr(self, attr))) + "\n"
+        st += "config.setrestrictions(%s)" % self.restr.dict
         return st
 
+    def writetofile(self,filename):
+        f = open(filename,"w+")
+        f.write(self.str())
+        f.close()
+
     # make static so one can call the constructor from here
-    def setfromfile(confobj, file):
+    def setfromfile(filename):
         config = Config()
-        exec(compile(open("input", "rb").read(), "input", 'exec'))
+        f = open(filename, "rb")
+        exec(compile(f.read(), filename, 'exec'))
+        f.close()
+        return config
+
+    # thanks to https://stackoverflow.com/a/1227325
+    def __eq__(self, other):
+        if not isinstance(other, Config):
+            # don't attempt to compare against unrelated types
+            return NotImplemented
+        if self.qualified != other.qualified:
+            return False
+        if self.regular != other.regular:
+            return False
+        if self.vacations != other.vacations:
+            return False
+        if self.str_sep != other.str_sep:
+            return False
+        if self.maxntries != other.maxntries:
+            return False
+        if self.maxnfails != other.maxnfails:
+            return False
+        if self.favwgt != other.favwgt:
+            return False
+        if self.favwgtdimin != other.favwgtdimin:
+            return False
+        if self.favwgtaugm != other.favwgtaugm:
+            return False
+        if self.sclshiftjump != other.sclshiftjump:
+            return False
+        if self.sclshiftchng != other.sclshiftchng:
+            return False
+        if self.printtrynumbermod != other.printtrynumbermod:
+            return False
+        if self.printfailedoutput != other.printfailedoutput:
+            return False
+        if self.setlang != other.setlang:
+            return False
+        if self.printfailreasons != other.printfailreasons:
+            return False
+        if self.monthno != other.monthno:
+            return False
+        if self.year != other.year:
+            return False
+        if self.monthstartswith != other.monthstartswith:
+            return False
+        if self.restr.dict != other.restr.dict:
+            return False
+        return True
+
+    def __ne__(self, other):
+        return (not __eq__(self, other))
