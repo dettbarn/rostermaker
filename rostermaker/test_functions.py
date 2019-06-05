@@ -5,8 +5,9 @@ try:
 except FileNotFoundError:
     print("No input file found.")
 
-from functions import isinshift, addtoshift, emptyarr
+from functions import isinshift, addtoshift
 from functions import isshiftchange, weightedrnd, daystr
+from functions import emptyarr, monthstr
 from functions import twodigit, isleapyear, ndays
 import exceptions as e
 
@@ -38,14 +39,6 @@ class TestFunctions(unittest.TestCase):
         b = [["", ""], ["", ""], ["", ""], ["", ""]]
         self.assertEqual(emptyarr(4, 2), b)
 
-    def test_twodigit(self):
-        self.assertEqual(twodigit(7), "07")
-        self.assertEqual(twodigit(42), "42")
-        self.assertEqual(twodigit(0), "00")
-        self.assertEqual(twodigit(-1), "01")
-        self.assertEqual(twodigit(-42), "42")
-        self.assertEqual(twodigit(100), "00")
-
     def test_isshiftchange(self):
         self.assertTrue(isshiftchange(shiftnames[0],shiftnames[1]))
         self.assertFalse(isshiftchange(shiftnames[0],'undef'))
@@ -65,6 +58,21 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(daystr(9)," 9")
         self.assertEqual(daystr(10),"10")
         self.assertEqual(daystr(30),"30")
+
+    def test_twodigit(self):
+        self.assertEqual(twodigit(7), "07")
+        self.assertEqual(twodigit(42), "42")
+        self.assertEqual(twodigit(0), "00")
+        self.assertEqual(twodigit(-1), "01")
+        self.assertEqual(twodigit(-42), "42")
+        self.assertEqual(twodigit(100), "00")
+
+    def test_monthstr(self):
+        self.assertEqual(monthstr(1),"January")
+        self.assertEqual(monthstr(9),"September")
+        exc = e.IllegalMonthException
+        for illmo in [0, 13, -3, 1.5, 2.2]:
+            self.assertRaises(exc, monthstr, illmo)
 
     def test_isleapyear(self):
         self.assertTrue(isleapyear(4))

@@ -1,5 +1,5 @@
 import random
-
+import gettext
 import exceptions as e
 
 try:
@@ -7,6 +7,7 @@ try:
 except FileNotFoundError:
     print("No input file found.")
 
+_ = gettext.gettext
 
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee, shiftstring):
