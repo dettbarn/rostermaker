@@ -74,7 +74,7 @@ class Roster:
         self.print()
         self.printtable()
 
-    supportedformats = ["out", "csv", "tex"]
+    supportedformats = ["out", "csv", "tex", "html"]
 
     # export in all supported file formats
     def exportfull(self, prefix, folder="."):
@@ -115,6 +115,23 @@ class Roster:
             f.write("\\end{tabular}" + texnl)
             f.write("\\end{table}" + texnl)
             f.write("\\end{document}" + texnl)
+        if fileformat == "html":
+            nl = "\n"
+            f.write("<html>" + nl)
+            f.write("<head>" + nl)
+            f.write("<title>" + self.getheadline() + "</title>" + nl)
+            f.write("</head>" + nl)
+            f.write("<body>" + nl)
+            f.write("<h1>" + self.getheadline() + "</h1>" + nl)
+            f.write("<table>" + nl)
+            f.write("<thead><th>")
+            f.write("</th><th>".join([""] + self.qualified + self.regular) + "</th></thead>" + nl)
+            for i in range(0, self.ndays):
+                f.write("<tr><td>")
+                f.write(self.getseprow(self.qualified + self.regular, i, "</td><td>", "</td></tr>" + nl))
+            f.write("</table>" + nl)
+            f.write("</body>" + nl)
+            f.write("</html>" + nl)
         f.close()
 
     def getheadline(self):
