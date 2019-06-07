@@ -74,7 +74,7 @@ class Roster:
         self.print()
         self.printtable()
 
-    supportedformats = ["out", "csv", "tex", "html"]
+    supportedformats = ["out", "csv", "tex", "html", "xml"]
 
     # export in all supported file formats
     def exportfull(self, prefix, folder="."):
@@ -132,6 +132,24 @@ class Roster:
             f.write("</table>" + nl)
             f.write("</body>" + nl)
             f.write("</html>" + nl)
+        if fileformat == "xml":
+            nl = "\n"
+            t1 = "    "
+            t2 = t1 + t1
+            t3 = t1 + t1 + t1
+            t4 = t1 + t1 + t1 + t1
+            f.write("<roster month=" + str(monthno) + " year=" + str(year) + ">" + nl)
+            for i in range(0, self.ndays):
+                f.write(t1 + "<day number=" + str(i+1) + ">" + nl)
+                for ishift in range(0, self.nshiftsperday):
+                    f.write(t2 + "<shift type='" + shiftnames[ishift] + "'>" + nl)
+                    f.write(t3 + "<employee>" + nl + t4)
+                    emplsep = nl + t3 + "</employee>" + nl + t3 + "<employee>" + nl + t4
+                    f.write(emplsep.join((self.arr[i][ishift]).split(',')) + nl)
+                    f.write(t3 + "</employee>" + nl)
+                    f.write(t2 + "</shift>" + nl)
+                f.write(t1 + "</day>" + nl)
+            f.write("</roster>" + nl)
         f.close()
 
     def getheadline(self):
