@@ -81,6 +81,10 @@ class Roster:
         for fileformat in Roster.supportedformats:
             self.export(prefix, fileformat, folder)
 
+    def exports(self, prefix, fileformats, folder="."):
+        for fileformat in fileformats:
+            self.export(prefix, fileformat, folder)
+
     def export(self, prefix, fileformat, folder="."):
         if fileformat not in Roster.supportedformats:
             print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
