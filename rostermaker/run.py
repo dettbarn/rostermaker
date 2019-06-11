@@ -109,14 +109,9 @@ else:
 if exportq == 'y':
     formatq = input(_("Please enter export formats, comma separated\n(empty for full export): "))
     folderq = input(_("Please enter directory (empty for default): "))
+    if folderq == '':
+        folderq = '.'  # default export folder
     if formatq == '':
-        if folderq == '':
-            roster.exportfull(prefix)
-        else:
-            roster.exportfull(prefix, folderq)
+        roster.exportfull(prefix, folderq)
     else:
-        formats = formatq.split(',')
-        if folderq == '':
-            roster.exports(prefix, formats)
-        else:
-            roster.exports(prefix, formats, folderq)
+        roster.exports(prefix, formatq.split(','), folderq)
