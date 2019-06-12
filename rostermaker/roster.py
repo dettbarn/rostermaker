@@ -78,8 +78,7 @@ class Roster:
 
     # export in all supported file formats
     def exportfull(self, prefix, folder="."):
-        for fileformat in Roster.supportedformats:
-            self.export(prefix, fileformat, folder)
+        self.exports(prefix, Roster.supportedformats, folder)
 
     def exports(self, prefix, fileformats, folder="."):
         for fileformat in fileformats:
