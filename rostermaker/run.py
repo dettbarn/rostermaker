@@ -47,7 +47,7 @@ roster.setvacations(vacations)
 # Calculate the weekend-days
 arrwe = []
 for i in range(0, roster.ndays):
-    weekday = i % 7
+    weekday = (monthstartswith + i) % 7
     if weekday == 5 or weekday == 6:
         arrwe.append(i)
 nwedays = len(arrwe)
