@@ -1,6 +1,5 @@
 from datetime import datetime
 
-exec(compile(open("input", "rb").read(), "input", 'exec'))
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
 
@@ -32,11 +31,11 @@ class Roster:
         nqualified = len(self.qualified)
         nregular = len(self.regular)
         for i in range(0, nqualified):
-            if qualified[i] == employee:
+            if self.qualified[i] == employee:
                 self.arrvacqualified[i] = vacstr
                 return 0
         for i in range(0, nregular):
-            if regular[i] == employee:
+            if self.regular[i] == employee:
                 self.arrvacregular[i] = vacstr
                 return 0
         print(_("Error in setvacation: Employee \"%s\" not found.") % employee)
@@ -149,43 +148,45 @@ class Roster:
         return table
 
     def tryfill(self):
+        c = self.conf
+        r = c.restr
         for iday in range(0, self.ndays):
             for ishift in range(0, self.nshiftsperday):
                 # only fill if empty (i.e. not pre-defined)
                 if self.arr[iday][ishift] == "":
                     # we assume at first that all staff members are available
                     # we also assume that we work at minimum staff
-                    kpersons = minpersonspershift
+                    kpersons = r.dict["minpersonspershift"]
                     kquali = 1
                     # kquali = r.randrange(minqualipershift, maxqualipershift + 1)
                     kreg = max(0, kpersons - kquali)
                     # first generate favorites and vetoes arrays
                     prio = Priorities()
                     if iday >= 1:
-                        onedayago = (self.arr[iday - 1][ishift]).split(str_sep)
+                        onedayago = (self.arr[iday - 1][ishift]).split(c.str_sep)
                         for employee in onedayago:
                             # person only favorite
                             #   if not in all last (maxdaysinrow) days,
                             #   else vetoed.
-                            if self.isinalllastndays(employee, iday, maxdaysinrow):
+                            if self.isinalllastndays(employee, iday, r.dict["maxdaysinrow"]):
                                 prio.setweight(employee, 0)
-                            elif self.isinalllastndays(employee, iday, maxdaysinrow - 1):
-                                prio.setweight(employee, favwgtdimin)
+                            elif self.isinalllastndays(employee, iday, r.dict["maxdaysinrow"] - 1):
+                                prio.setweight(employee, c.favwgtdimin)
                             elif self.isinexactlyalllastndays(employee, iday, 2):
-                                prio.setweight(employee, favwgtaugm)
+                                prio.setweight(employee, c.favwgtaugm)
                             elif self.isinexactlyalllastndays(employee, iday, 1):
-                                prio.setweight(employee, favwgtaugm)
+                                prio.setweight(employee, c.favwgtaugm)
                             else:
-                                prio.setweight(employee, favwgt)
+                                prio.setweight(employee, c.favwgt)
                         for employee in (self.qualified + self.regular):
                             lastshiftname = getlastshiftname(employee, self.arr, iday, ishift)
                             if lastshiftname != shiftnames[ishift]:
                                 # Scale weight down if would be shift change
                                 lastday = self.getlastday(employee, iday)
                                 if lastday >= 0 and iday - lastday == 1:
-                                    prio.scaleweight(employee, sclshiftjump)
+                                    prio.scaleweight(employee, c.sclshiftjump)
                                 else:
-                                    prio.scaleweight(employee, sclshiftchng)
+                                    prio.scaleweight(employee, c.sclshiftchng)
                     for i in range(0, kquali):
                         # weighted averaging:
                         rnd = pickwithpriorities(self.qualified, prio)
@@ -368,3 +369,6 @@ class Roster:
         vacstr = self.getvacation(employee)
         splitted = vacstr.split(str_sep)
         return len(splitted)
+
+    def setconf(self, conf):
+    	self.conf = conf

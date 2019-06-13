@@ -20,3 +20,5 @@ misc/
 *roster_*.tex
 texput.log
 vacations.py
+*.py~
+.gitignore~

@@ -4,22 +4,33 @@ import gettext as gt
 # import functions
 # from roster import Roster
 
-try:
-    exec(compile(open("input", "rb").read(), "input", 'exec'))
-except FileNotFoundError:
-    sys.exit("No input file found. Aborting.")
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
+from config import Config
+import restrictions as re
+
+conf = Config()
+conf.setdefault()
+conf.setqualified(["A", "B", "C"])
+conf.setregular(["a", "b", "c", "d"])
+conf.setmonth(1)
+conf.setyear(2001)
+conf.setmonthstartswith(3)
+conf.setvacation("A", [1, 2, 3])
+restr = re.Restrictions()
+restr._setall([3, 1, 10, 1, 0, 1, 6, 3, 7, 1, 2, 3])
+conf.setrestrictions(restr.dict)
+        
 
 # set locale
 langs = ['de']  # all translations we support
 langs_en = ['en'] + langs
-if setlang in langs:
-    lang = gt.translation('all', localedir='../locales', languages=[setlang])
+if conf.setlang in langs:
+    lang = gt.translation('all', localedir='../locales', languages=[conf.setlang])
     lang.install()
-elif setlang != 'en':
+elif conf.setlang != 'en':
     str_langs_en = ', '.join(langs_en)
-    errp1 = "Language '%s' not supported." % setlang
+    errp1 = "Language '%s' not supported." % conf.setlang
     errp2 = "Only available: %s." % str_langs_en
     errp3 = "Continuing in English."
     print(' '.join([errp1, errp2, errp3]))
@@ -28,8 +39,8 @@ else:  # fall back to default English
 
 
 # evaluate input
-nqualified = len(qualified)
-nregular = len(regular)
+nqualified = len(conf.qualified)
+nregular = len(conf.regular)
 ntotal = nqualified + nregular
 
 
@@ -41,8 +52,9 @@ for i in range(0, nregular):
     arrvacregular.append("")
 
 # Initialize roster
-roster = Roster(nshiftsperday, qualified, regular, monthno, year)
-roster.setvacations(vacations)
+roster = Roster(len(conf.shiftnames), conf.qualified, conf.regular, conf.monthno, conf.year)
+roster.setvacations(conf.vacations)
+roster.setconf(conf)
 
 # Calculate the weekend-days
 arrwe = []
@@ -60,19 +72,19 @@ print(_("Number of weekend days: %d") % nwedays)
 ok = False
 ntries = 0
 print(_("Starting calculation."))
-while (not ok) and ntries < maxntries:
+while (not ok) and ntries < conf.maxntries:
     try:
         ntries += 1
         if(ntries > 0):
             roster.makeempty()
-        if ntries % printtrynumbermod == 0:
+        if ntries % conf.printtrynumbermod == 0:
             print(_("Try #"), str(ntries))
         tryresult = roster.tryfill()
         if tryresult != 0:
             continue
         # now check for clashes with restrictions
         clash = False
-        for i in qualified + regular:
+        for i in conf.qualified + conf.regular:
             if roster.nclashes(i) >= 1:
                 clash = True
         if not clash:
@@ -94,11 +106,11 @@ if ok:
     prefix = 'roster'
 else:
     print(_("Did not work after %d tries.") % ntries)
-    if printfailedoutput is True:
+    if conf.printfailedoutput is True:
         print(_("This is what I have:"))
         roster.printfull()
-    if printfailreasons is True:
-        for i in qualified + regular:
+    if conf.printfailreasons is True:
+        for i in conf.qualified + conf.regular:
             failstring = ', '.join(roster.clashes(i))
             print(_("%s problems: %s") % (i, failstring))
     exportq = "undef"
