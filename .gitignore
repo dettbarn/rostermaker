@@ -18,6 +18,8 @@ misc/
 *roster_*.log
 *roster_*.pdf
 *roster_*.tex
+*roster_*.html
+*roster_*.xml
 texput.log
 vacations.py
 *.py~

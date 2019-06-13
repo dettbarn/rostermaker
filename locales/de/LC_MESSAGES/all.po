@@ -185,6 +185,10 @@ msgstr "Dies ist was ich habe:"
 msgid "%s problems: %s"
 msgstr "%s Probleme: %s"
 
+#: rostermaker/run.py:110
+msgid "Please enter export formats, comma separated\n(empty for full export): "
+msgstr "Bitte Ausgabeformate eingeben, durch Kommas getrennt\n(leerlassen für vollständige Ausgabe): "
+
 #: rostermaker/run.py:98
 msgid "Export though? (y/n)  "
 msgstr "Dennoch exportieren? (y/n)  "

@@ -59,7 +59,7 @@ roster.setconf(conf)
 # Calculate the weekend-days
 arrwe = []
 for i in range(0, roster.ndays):
-    weekday = i % 7
+    weekday = (monthstartswith + i) % 7
     if weekday == 5 or weekday == 6:
         arrwe.append(i)
 nwedays = len(arrwe)
@@ -119,8 +119,11 @@ else:
     prefix = 'failedroster'
 
 if exportq == 'y':
+    formatq = input(_("Please enter export formats, comma separated\n(empty for full export): "))
     folderq = input(_("Please enter directory (empty for default): "))
     if folderq == '':
-        roster.exportfull(prefix)
-    else:
+        folderq = '.'  # default export folder
+    if formatq == '':
         roster.exportfull(prefix, folderq)
+    else:
+        roster.exports(prefix, formatq.split(','), folderq)

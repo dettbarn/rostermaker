@@ -23,7 +23,7 @@ No installation required. It should run out of the box.
 
 Set all the variables in a file in the rostermaker/ subfolder, called 'input'. Then simply run 'python run.py' there.
 
-Currently, also the output files will be stored in the rostermaker/ subfolder.
+Supports exporting the roster to .dat, .csv, .tex, .html, and .xml.
 
 ## Contribute
 
