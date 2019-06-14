@@ -32,11 +32,11 @@ class Roster:
         nqualified = len(self.qualified)
         nregular = len(self.regular)
         for i in range(0, nqualified):
-            if qualified[i] == employee:
+            if self.qualified[i] == employee:
                 self.arrvacqualified[i] = vacstr
                 return 0
         for i in range(0, nregular):
-            if regular[i] == employee:
+            if self.regular[i] == employee:
                 self.arrvacregular[i] = vacstr
                 return 0
         print(_("Error in setvacation: Employee \"%s\" not found.") % employee)
