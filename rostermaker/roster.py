@@ -74,7 +74,7 @@ class Roster:
         self.print()
         self.printtable()
 
-    supportedformats = ["out", "csv", "tex", "html", "xml"]
+    supportedformats = ["out", "csv", "tex", "html", "xml", "json"]
 
     # export in all supported file formats
     def exportfull(self, prefix, folder="."):
@@ -143,7 +143,7 @@ class Roster:
             t4 = t1 + t1 + t1 + t1
             f.write("<roster month=" + str(monthno) + " year=" + str(year) + ">" + nl)
             for i in range(0, self.ndays):
-                f.write(t1 + "<day number=" + str(i+1) + ">" + nl)
+                f.write(t1 + "<day number=" + str(i + 1) + ">" + nl)
                 for ishift in range(0, self.nshiftsperday):
                     f.write(t2 + "<shift type='" + shiftnames[ishift] + "'>" + nl)
                     f.write(t3 + "<employee>" + nl + t4)
@@ -153,6 +153,35 @@ class Roster:
                     f.write(t2 + "</shift>" + nl)
                 f.write(t1 + "</day>" + nl)
             f.write("</roster>" + nl)
+        if fileformat == "json":
+            nl = "\n"
+            t1 = "    "
+            t2 = t1 + t1
+            t3 = t1 + t1 + t1
+            t4 = t1 + t1 + t1 + t1
+            f.write("{" + nl)
+            f.write(t1 + "\"roster\": {" + nl)
+            f.write(t2 + "\"month\": " + str(monthno))
+            f.write(", \"year\": " + str(year))
+            f.write(", \"days\": [" + nl)
+            for i in range(0, self.ndays):
+                f.write(t3 + "{ \"number\": " + str(i + 1))
+                f.write(", \"shifts\": [" + nl)
+                for ishift in range(0, self.nshiftsperday):
+                    f.write(t4 + "{ \"type\": \"" + shiftnames[ishift] + "\"")
+                    f.write(", \"employees\": [ { \"employee\": \"")
+                    emplsep = "\" }, { \"employee\": \""
+                    f.write(emplsep.join((self.arr[i][ishift]).split(',')) + "\" } ] }")
+                    if ishift < self.nshiftsperday - 1:
+                        f.write(",")
+                    f.write(nl)
+                f.write(t3 + "] }")
+                if i < self.ndays - 1:
+                    f.write(",")
+                f.write(nl)
+            f.write(t2 + "]" + nl)
+            f.write(t1 + "}" + nl)
+            f.write("}" + nl)
         f.close()
 
     def getheadline(self):
