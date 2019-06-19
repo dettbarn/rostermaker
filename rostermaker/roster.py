@@ -75,6 +75,7 @@ class Roster:
         self.printtable()
 
     supportedformats = ["out", "csv", "tex", "html", "xml", "json"]
+    nl = "\n"  # default linebreak convention
 
     # export in all supported file formats
     def exportfull(self, prefix, folder="."):
@@ -91,35 +92,34 @@ class Roster:
         stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         ym = str(year) + "-" + twodigit(monthno)
         f = open(folder + "/" + prefix + "_" + ym + "_" + stamp + "." + fileformat, "w+")
+        nl = Roster.nl
         if fileformat == "out":
-            f.write(self.getheadline() + "\r\n")
-            f.write(self.getfullschedtable() + "\r\n")
+            f.write(self.getheadline() + nl)
+            f.write(self.getfullschedtable() + nl)
         if fileformat == "csv":
-            f.write("# " + self.getheadline() + "\r\n")
-            f.write(self.getseptable(self.qualified + self.regular, ',') + "\r\n")
+            f.write("# " + self.getheadline() + nl)
+            f.write(self.getseptable(self.qualified + self.regular, ',') + nl)
         if fileformat == "tex":
-            texnl = "\n"
-            f.write("\\documentclass[10pt]{article}" + texnl)
-            f.write("\\usepackage[margin=2cm]{geometry}" + texnl)
-            f.write("\\title{" + self.getheadline() + "}" + texnl)
-            f.write("\\begin{document}" + texnl)
-            f.write("\\maketitle" + texnl)
-            f.write("\\begin{table}[ht]" + texnl)
-            f.write("\\centering" + texnl)
+            f.write("\\documentclass[10pt]{article}" + nl)
+            f.write("\\usepackage[margin=2cm]{geometry}" + nl)
+            f.write("\\title{" + self.getheadline() + "}" + nl)
+            f.write("\\begin{document}" + nl)
+            f.write("\\maketitle" + nl)
+            f.write("\\begin{table}[ht]" + nl)
+            f.write("\\centering" + nl)
             f.write("\\begin{tabular}{")
             f.write("r")  # day number right-aligned
             for i in (self.qualified + self.regular):
                 f.write("c")
-            f.write("}" + texnl)
-            f.write(" & ".join([""] + self.qualified + self.regular) + " \\\\" + texnl)
-            f.write("\\hline" + texnl)
+            f.write("}" + nl)
+            f.write(" & ".join([""] + self.qualified + self.regular) + " \\\\" + nl)
+            f.write("\\hline" + nl)
             for i in range(0, self.ndays):
-                f.write(self.getseprow(self.qualified + self.regular, i, " & ", " \\\\" + texnl))
-            f.write("\\end{tabular}" + texnl)
-            f.write("\\end{table}" + texnl)
-            f.write("\\end{document}" + texnl)
+                f.write(self.getseprow(self.qualified + self.regular, i, " & ", " \\\\" + nl))
+            f.write("\\end{tabular}" + nl)
+            f.write("\\end{table}" + nl)
+            f.write("\\end{document}" + nl)
         if fileformat == "html":
-            nl = "\n"
             f.write("<html>" + nl)
             f.write("<head>" + nl)
             f.write("<title>" + self.getheadline() + "</title>" + nl)
@@ -136,7 +136,6 @@ class Roster:
             f.write("</body>" + nl)
             f.write("</html>" + nl)
         if fileformat == "xml":
-            nl = "\n"
             t1 = "    "
             t2 = t1 + t1
             t3 = t1 + t1 + t1
@@ -154,7 +153,6 @@ class Roster:
                 f.write(t1 + "</day>" + nl)
             f.write("</roster>" + nl)
         if fileformat == "json":
-            nl = "\n"
             t1 = "    "
             t2 = t1 + t1
             t3 = t1 + t1 + t1
@@ -192,12 +190,12 @@ class Roster:
         return self.getindivschedtable(self.qualified + self.regular)
 
     def getindivschedtable(self, thesemembers):
-        schedtab = str(thesemembers) + "\n"
+        schedtab = str(thesemembers) + Roster.nl
         for iday in range(0, self.ndays):
             schedtab += daystr(iday + 1) + "  "
             for memb in thesemembers:
                 schedtab += " " + self.whatinday(memb, iday)
-            schedtab += "\n"
+            schedtab += Roster.nl
         return schedtab
 
     def getseprow(self, thesemembers, iday, sep, end):
@@ -210,9 +208,9 @@ class Roster:
 
     def getseptable(self, thesemembers, sep):
         pref = _("# (day),")
-        table = pref + ','.join(self.qualified + self.regular) + "\r\n"
+        table = pref + ','.join(self.qualified + self.regular) + Roster.nl
         for iday in range(0, self.ndays):
-            table += self.getseprow(thesemembers, iday, sep, "\r\n")
+            table += self.getseprow(thesemembers, iday, sep, Roster.nl)
         return table
 
     def tryfill(self):
@@ -420,7 +418,7 @@ class Roster:
     def getindivsched(self, employee):
         sched = ""
         for i in range(0, ndays):
-            sched += str(i + 1) + " " + self.whatinday(employee, i) + "\n"
+            sched += str(i + 1) + " " + self.whatinday(employee, i) + Roster.nl
         return sched
 
     def hasvacationthatday(self, employee, theday):
