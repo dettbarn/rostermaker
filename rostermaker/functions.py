@@ -254,3 +254,19 @@ def ndays(monthno, year):
         str_illegalMonth = _("Error in ndays: Illegal month number.")
         raise e.IllegalMonthException(str_illegalMonth)
         return -1
+
+
+def promptint(cur, name):
+    worked = 0
+    while not worked:
+        new = input("%s (empty for default %s): " % (name, str(cur)))
+        if new == "":
+            newint = cur
+            break
+        try:
+            newint = int(new)
+        except ValueError:
+            print("    %s has to be an integer. Please try again." % name)
+            continue
+        worked = 1
+    return newint

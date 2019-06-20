@@ -20,7 +20,10 @@ conf.setvacation("A", "1,2,3")
 restr = re.Restrictions()
 restr._setall([3, 1, 10, 1, 0, 1, 6, 3, 7, 1, 2, 3])
 conf.setrestrictions(restr.dict)
-        
+
+print("Roster configuration:")
+conf.setyear(promptint(conf.year, "Year"))
+conf.setmonth(promptint(conf.monthno, "Month number"))
 
 # set locale
 langs = ['de']  # all translations we support
