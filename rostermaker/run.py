@@ -11,8 +11,8 @@ import restrictions as re
 
 conf = Config()
 conf.setdefault()
-conf.setqualified(["A", "B", "C"])
-conf.setregular(["a", "b", "c", "d"])
+conf.setqualified(["A", "B", "C", "D", "E", "F", "G"])
+conf.setregular(["a", "b", "c", "d", "e", "f", "g", "h", "i"])
 conf.setmonth(1)
 conf.setyear(2001)
 conf.setmonthstartswith(3)
