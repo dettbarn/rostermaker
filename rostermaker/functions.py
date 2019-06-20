@@ -41,8 +41,8 @@ def getindivsched(employee, arr):
 # returns false if shifts are equal, true if not.
 # returns also false if one of shifts is 'undef'
 # or if one is some other non-shift meta-identifier
-def isshiftchange(shift1, shift2):
-    if shift1 in shiftnames and shift2 in shiftnames:
+def isshiftchange(shift1, shift2, conf):
+    if shift1 in conf.shiftnames and shift2 in conf.shiftnames:
         if shift1 != shift2:
             return True
     else:

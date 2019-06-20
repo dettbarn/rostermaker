@@ -88,7 +88,7 @@ class Roster:
             print(_("Error: file format \"%s\" not supported. Exporting generic .out file.") % fileformat)
             fileformat = "out"
         stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        ym = str(year) + "-" + twodigit(monthno)
+        ym = str(self.conf.year) + "-" + twodigit(self.conf.monthno)
         f = open(folder + "/" + prefix + "_" + ym + "_" + stamp + "." + fileformat, "w+")
         if fileformat == "out":
             f.write(self.getheadline() + "\r\n")
@@ -140,11 +140,12 @@ class Roster:
             t2 = t1 + t1
             t3 = t1 + t1 + t1
             t4 = t1 + t1 + t1 + t1
-            f.write("<roster month=" + str(monthno) + " year=" + str(year) + ">" + nl)
+            c = self.conf
+            f.write("<roster month=" + str(c.monthno) + " year=" + str(c.year) + ">" + nl)
             for i in range(0, self.ndays):
                 f.write(t1 + "<day number=" + str(i+1) + ">" + nl)
                 for ishift in range(0, self.nshiftsperday):
-                    f.write(t2 + "<shift type='" + shiftnames[ishift] + "'>" + nl)
+                    f.write(t2 + "<shift type='" + c.shiftnames[ishift] + "'>" + nl)
                     f.write(t3 + "<employee>" + nl + t4)
                     emplsep = nl + t3 + "</employee>" + nl + t3 + "<employee>" + nl + t4
                     f.write(emplsep.join((self.arr[i][ishift]).split(',')) + nl)
@@ -218,7 +219,7 @@ class Roster:
                                 prio.setweight(employee, c.favwgt)
                         for employee in (self.qualified + self.regular):
                             lastshiftname = getlastshiftname(employee, self.arr, iday, ishift, self.conf)
-                            if lastshiftname != shiftnames[ishift]:
+                            if lastshiftname != c.shiftnames[ishift]:
                                 # Scale weight down if would be shift change
                                 lastday = self.getlastday(employee, iday)
                                 if lastday >= 0 and iday - lastday == 1:
@@ -234,7 +235,7 @@ class Roster:
                         nfails = 0
                         while not self.wouldbeok(rnd, iday, ishift):
                             nfails += 1
-                            if nfails > maxnfails:
+                            if nfails > c.maxnfails:
                                 return 1
                             rnd = pickwithpriorities(self.qualified, prio)
                         oldstr = self.arr[iday][ishift]
@@ -276,15 +277,16 @@ class Roster:
         return number
 
     def clashes(self, employee):
+        r = self.conf.restr
         clashesarr = []
-        if self.hasfreeweekends(employee) < minfreeweekends:
+        if self.hasfreeweekends(employee) < r.dict["minfreeweekends"]:
             clashesarr += [_("free weekends")]
-        if self.findmaxshiftchangesseries(employee) > maxshiftchangesperseries:
+        if self.findmaxshiftchangesseries(employee) > r.dict["maxshiftchangesperseries"]:
             clashesarr += [_("shift series")]
-        if self.countshiftchangespermonth(employee) > maxshiftchangespermonth:
+        if self.countshiftchangespermonth(employee) > r.dict["maxshiftchangespermonth"]:
             clashesarr += [_("monthly shift changes")]
         availabledays = self.ndays - self.getnvacdays(employee)
-        mindays_corr = minworkdayseachperson * availabledays / self.ndays
+        mindays_corr = r.dict["minworkdayseachperson"] * availabledays / self.ndays
         if self.countworkdays(employee) < mindays_corr:
             clashesarr += [_("work days")]
         return clashesarr
@@ -301,7 +303,7 @@ class Roster:
         for i in range(0, self.ndays):
             if self.isinday(employee, i):
                 thisshiftname = self.whatinday(employee, i)
-                if isshiftchange(lastshiftname, thisshiftname):
+                if isshiftchange(lastshiftname, thisshiftname, self.conf):
                     number += 1
                 lastshiftname = thisshiftname
         return number
@@ -316,7 +318,7 @@ class Roster:
     # find out if a certain employee works on a certain day
     def isinday(self, employee, theday):
         isinday = False
-        for ishift in range(0, nshiftsperday):
+        for ishift in range(0, self.nshiftsperday):
             if isinshift(employee, self.arr[theday][ishift], self.conf):
                 isinday = True
         return isinday
@@ -324,9 +326,9 @@ class Roster:
     def whatinday(self, employee, theday):
         if self.hasvacationthatday(employee, theday):
             return "U"
-        for ishift in range(0, nshiftsperday):
+        for ishift in range(0, self.conf.restr.dict["nshiftsperday"]):
             if isinshift(employee, self.arr[theday][ishift], self.conf):
-                return shiftnames[ishift]
+                return self.conf.shiftnames[ishift]
         return "-"
 
     # does not recognize previous months yet
@@ -405,7 +407,7 @@ class Roster:
 
     def getnvacdays(self, employee):
         vacstr = self.getvacation(employee)
-        splitted = vacstr.split(str_sep)
+        splitted = vacstr.split(self.conf.str_sep)
         return len(splitted)
 
     def setconf(self, conf):
