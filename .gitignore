@@ -3,6 +3,7 @@ __pycache__/
 *.out
 *.csv
 *.tmp
+*.old
 input
 test.py
 notes.txt
