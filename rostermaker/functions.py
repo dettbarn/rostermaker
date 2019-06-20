@@ -6,17 +6,17 @@ import exceptions as e
 _ = gettext.gettext
 
 # find out if a certain employee is in a certain shiftstring
-def isinshift(employee, shiftstring):
-    splitted = shiftstring.split(str_sep)
+def isinshift(employee, shiftstring, conf):
+    splitted = shiftstring.split(conf.str_sep)
     for i in splitted:
         if i == employee:
             return True
     return False
 
 
-def addtoshift(employee, shiftstring):
+def addtoshift(employee, shiftstring, conf):
     if shiftstring != "":
-        shiftstring += str_sep
+        shiftstring += conf.str_sep
     shiftstring += employee
     return shiftstring
 
@@ -50,13 +50,13 @@ def isshiftchange(shift1, shift2):
 
 
 # get last shift, BEFORE the shift currently considered
-def getlastshiftname(employee, arr, curday, curshift):
+def getlastshiftname(employee, arr, curday, curshift, conf):
     for ishift in range(curshift, 0):
-        if isinshift(employee, arr[iday][ishift]):
+        if isinshift(employee, arr[iday][ishift], conf):
             return shiftnames[ishift]
     for iday in range(curday, 0):
         for ishift in range(nshiftsperday, 0):
-            if isinshift(employee, arr[iday][ishift]):
+            if isinshift(employee, arr[iday][ishift], conf):
                 return shiftnames[ishift]
     # reaches beginning of month, still not found, so it's undefined
     return "undef"

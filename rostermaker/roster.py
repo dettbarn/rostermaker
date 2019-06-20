@@ -217,7 +217,7 @@ class Roster:
                             else:
                                 prio.setweight(employee, c.favwgt)
                         for employee in (self.qualified + self.regular):
-                            lastshiftname = getlastshiftname(employee, self.arr, iday, ishift)
+                            lastshiftname = getlastshiftname(employee, self.arr, iday, ishift, self.conf)
                             if lastshiftname != shiftnames[ishift]:
                                 # Scale weight down if would be shift change
                                 lastday = self.getlastday(employee, iday)
@@ -238,7 +238,7 @@ class Roster:
                                 return 1
                             rnd = pickwithpriorities(self.qualified, prio)
                         oldstr = self.arr[iday][ishift]
-                        self.arr[iday][ishift] = addtoshift(rnd, oldstr)
+                        self.arr[iday][ishift] = addtoshift(rnd, oldstr, self.conf)
                     for i in range(0, kreg):
                         # weighted averaging:
                         rnd = pickwithpriorities(self.regular, prio)
@@ -248,11 +248,11 @@ class Roster:
                         # (without using the integer defined above)
                         while not self.wouldbeok(rnd, iday, ishift):
                             nfails += 1
-                            if nfails > maxnfails:
+                            if nfails > c.maxnfails:
                                 return 2
                             rnd = pickwithpriorities(self.regular, prio)
                         oldstr = self.arr[iday][ishift]
-                        self.arr[iday][ishift] = addtoshift(rnd, oldstr)
+                        self.arr[iday][ishift] = addtoshift(rnd, oldstr, self.conf)
         return 0
 
     # find the maximum number of shift changes
@@ -317,7 +317,7 @@ class Roster:
     def isinday(self, employee, theday):
         isinday = False
         for ishift in range(0, nshiftsperday):
-            if isinshift(employee, self.arr[theday][ishift]):
+            if isinshift(employee, self.arr[theday][ishift], self.conf):
                 isinday = True
         return isinday
 
@@ -325,7 +325,7 @@ class Roster:
         if self.hasvacationthatday(employee, theday):
             return "U"
         for ishift in range(0, nshiftsperday):
-            if isinshift(employee, self.arr[theday][ishift]):
+            if isinshift(employee, self.arr[theday][ishift], self.conf):
                 return shiftnames[ishift]
         return "-"
 
@@ -351,19 +351,19 @@ class Roster:
 
     # Check if it would be ok to add this employee (rnd) at this day and shift
     def wouldbeok(self, rnd, iday, ishift):
-        if isinshift(rnd, self.arr[iday][ishift]):
+        if isinshift(rnd, self.arr[iday][ishift], self.conf):
             return False  # already there
-        elif (ishift >= 1 and isinshift(rnd, self.arr[iday][ishift - 1])):
+        elif (ishift >= 1 and isinshift(rnd, self.arr[iday][ishift - 1], self.conf)):
             return False  # already in preceding shift (same day)
-        elif (ishift == 0 and isinshift(rnd, self.arr[iday - 1][ishift + 2])):
+        elif (ishift == 0 and isinshift(rnd, self.arr[iday - 1][ishift + 2], self.conf)):
             return False  # already in preceding shift (previous day)
-        elif (ishift - 2 >= 0 and isinshift(rnd, self.arr[iday][ishift - 2])):
+        elif (ishift - 2 >= 0 and isinshift(rnd, self.arr[iday][ishift - 2], self.conf)):
             return False  # already in two shifts ago, same day
-        elif self.isinalllastndays(rnd, iday, maxdaysinrow):
+        elif self.isinalllastndays(rnd, iday, self.conf.restr.dict["maxdaysinrow"]):
             return False  # already has maximum shifts in row at this point
         elif self.hasvacationthatday(rnd, iday):
             return False  # has vacation this day
-        elif self.isinalllastndays(rnd, iday - 1, ndaysinrowtorequiretwofree):
+        elif self.isinalllastndays(rnd, iday - 1, self.conf.restr.dict["ndaysinrowtorequiretwofree"]):
             if not self.isinday(rnd, iday - 1):
                 return False  # had free yesterday,
                 # but had a big number of days in row directly before that,
