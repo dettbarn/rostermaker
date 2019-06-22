@@ -114,8 +114,8 @@ msgid "---  %s %d roster  ---"
 msgstr "---  %s %d Dienstplan  ---"
 
 #: rostermaker/rostermaker/roster.py:80
-msgid "# (day),"
-msgstr "# (Tag),"
+msgid "# (day)"
+msgstr "# (Tag)"
 
 #: rostermaker/roster.py:129
 msgid "free weekends"

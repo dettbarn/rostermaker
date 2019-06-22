@@ -148,7 +148,7 @@ class Roster:
                     f.write(t2 + "<shift type='" + c.shiftnames[ishift] + "'>" + nl)
                     f.write(t3 + "<employee>" + nl + t4)
                     emplsep = nl + t3 + "</employee>" + nl + t3 + "<employee>" + nl + t4
-                    f.write(emplsep.join((self.arr[i][ishift]).split(',')) + nl)
+                    f.write(emplsep.join((self.arr[i][ishift]).split(self.conf.str_sep)) + nl)
                     f.write(t3 + "</employee>" + nl)
                     f.write(t2 + "</shift>" + nl)
                 f.write(t1 + "</day>" + nl)
@@ -180,8 +180,8 @@ class Roster:
         return row
 
     def getseptable(self, thesemembers, sep):
-        pref = _("# (day),")
-        table = pref + ','.join(self.qualified + self.regular) + "\r\n"
+        pref = _("# (day)" + sep)
+        table = pref + sep.join(self.qualified + self.regular) + "\r\n"
         for iday in range(0, self.ndays):
             table += self.getseprow(thesemembers, iday, sep, "\r\n")
         return table
@@ -399,7 +399,7 @@ class Roster:
 
     def hasvacationthatday(self, employee, theday):
         strvacdays = self.getvacation(employee)
-        arrvacdays = strvacdays.split(",")
+        arrvacdays = strvacdays.split(self.conf.str_sep)
         for vacday in arrvacdays:
             if vacday == str(theday):
                 return True
