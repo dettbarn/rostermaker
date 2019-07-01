@@ -1,5 +1,6 @@
 import sys
 import gettext as gt
+import calendar
 
 # import functions
 # from roster import Roster
@@ -24,6 +25,7 @@ conf.setrestrictions(restr.dict)
 print("Roster configuration:")
 conf.setyear(promptint(conf.year, "Year"))
 conf.setmonth(promptint(conf.monthno, "Month number"))
+conf.setmonthstartswith(calendar.monthrange(conf.year, conf.monthno)[0])
 
 # set locale
 langs = ['de']  # all translations we support
