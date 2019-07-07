@@ -270,3 +270,18 @@ def promptint(cur, name):
             continue
         worked = 1
     return newint
+
+def promptstr(cur, name):
+    worked = 0
+    while not worked:
+        new = input("%s (empty for default %s): " % (name, str(cur)))
+        if new == "":
+            newstr = cur
+            break
+        try:
+            newstr = str(new)
+        except ValueError:
+            print("    %s has to be a string. Please try again." % name)
+            continue
+        worked = 1
+    return newstr

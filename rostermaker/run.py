@@ -26,6 +26,8 @@ print("Roster configuration:")
 conf.setyear(promptint(conf.year, "Year"))
 conf.setmonth(promptint(conf.monthno, "Month number"))
 conf.setmonthstartswith(calendar.monthrange(conf.year, conf.monthno)[0])
+conf.setqualified(promptstr(','.join(conf.qualified), "Qualified employees").split(','))
+conf.setregular(promptstr(','.join(conf.regular), "Regular employees").split(','))
 
 # set locale
 langs = ['de']  # all translations we support
