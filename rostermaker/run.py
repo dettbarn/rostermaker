@@ -26,6 +26,21 @@ conf.setmonth(promptint(conf.monthno, "Month number"))
 conf.setmonthstartswith(calendar.monthrange(conf.year, conf.monthno)[0])
 conf.setqualified(promptstr(','.join(conf.qualified), "Qualified employees").split(','))
 conf.setregular(promptstr(','.join(conf.regular), "Regular employees").split(','))
+print("Please put in the vacation days for each employee.")
+print("(List of all employees: %s)" % ','.join(conf.qualified + conf.regular))
+emplq = ''
+while True:
+    empl = input("Next employee (empty for quit): ")
+    if empl == '':
+        break
+    if empl not in (conf.qualified + conf.regular):
+        print("Employee %s does not exist. Please try again." % empl)
+        continue
+    vacstr1 = input("Vacation days for %s (comma-separated): " % empl)
+    vacarr1 = vacstr1.split(',')
+    vacarr0 = [str(int(x) - 1) for x in vacarr1]
+    vacstr0 = ','.join(vacarr0)
+    conf.setvacation(empl, vacstr0)
 
 # set locale
 langs = ['de']  # all translations we support
