@@ -1,7 +1,5 @@
 import gettext
 
-_ = gettext.gettext
-
 class Restrictions:
     def __init__(self):
         self.dict = {}

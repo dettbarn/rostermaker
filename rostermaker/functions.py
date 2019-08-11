@@ -3,8 +3,6 @@ import gettext
 import exceptions as e
 
 
-_ = gettext.gettext
-
 # find out if a certain employee is in a certain shiftstring
 def isinshift(employee, shiftstring, conf):
     splitted = shiftstring.split(conf.str_sep)
