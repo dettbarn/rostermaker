@@ -18,6 +18,8 @@ def isinshift(employee, shiftstring):
     return False
 
 
+# Add an employee to a shift string.
+# Does not check if already in shift (use isinshift() for that)
 def addtoshift(employee, shiftstring):
     if shiftstring != "":
         shiftstring += str_sep
@@ -25,6 +27,7 @@ def addtoshift(employee, shiftstring):
     return shiftstring
 
 
+# Construct and return an empty 2D array for a month roster.
 def emptyarr(ndays, nshiftsperday):
     arr = []
     for iday in range(0, ndays):
@@ -35,6 +38,7 @@ def emptyarr(ndays, nshiftsperday):
     return arr
 
 
+# Get individual schedule for a certain employee.
 def getindivsched(employee, arr):
     sched = ""
     for i in range(0, ndays):
@@ -66,6 +70,7 @@ def getlastshiftname(employee, arr, curday, curshift):
     return "undef"
 
 
+# Empty the last filled shift in month roster array
 def poplastfilled(arr):
     for iday in range(ndays, 0):
         for ishift in range(nshiftsperday, 0):
@@ -199,6 +204,7 @@ def twodigit(n):
     return str(n)[-2:]
 
 
+# Get name of month with number monthno.
 def monthstr(monthno):
     if monthno == 1:
         return _("January")
@@ -242,6 +248,8 @@ def isleapyear(year):
     return False
 
 
+# Get number of days in a month.
+# Because of leap-years, this depends also on the year.
 def ndays(monthno, year):
     months31 = [1, 3, 5, 7, 8, 10, 12]
     months30 = [4, 6, 9, 11]
