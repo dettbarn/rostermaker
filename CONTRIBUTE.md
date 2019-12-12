@@ -4,9 +4,11 @@
 
 Feel free to pick any of the open issues, or to tackle any bugs you encounter.
 
-If you have a feature request, please open an Issue before you start something -- I have maybe already considered that feature and done some preliminary work.
+If you have a feature request, please open an Issue before you start something---I have maybe already considered that feature and done some preliminary work.
 
-I18n is missing for all languages except en and de -- you can pick any human or inhuman language and add translations for it. But please note that since there are still many features to be developed, the translation files will have to be kept in sync by someone afterwards.
+Localization is missing for all languages except english (en; default) and german (de)---you can pick any human or non-human language and add translations for it under /locales. But please note that since there are still many features to be developed, the translation files will have to be kept in sync by someone afterwards.
+
+If anything is unclear from the code or documentation, feel free to open an Issue for that as well.
 
 ## How to contribute
 
