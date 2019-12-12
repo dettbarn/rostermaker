@@ -89,6 +89,9 @@ class Config:
         f.close()
         return config
 
+    def setlanguage(self, language):
+        self.setlang = language
+
     # thanks to https://stackoverflow.com/a/1227325
     def __eq__(self, other):
         if not isinstance(other, Config):

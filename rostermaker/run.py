@@ -7,6 +7,7 @@ import calendar
 
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
 exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
+
 from config import Config
 import restrictions as re
 
@@ -19,8 +20,25 @@ conf.setyear(2001)
 restr = re.Restrictions()
 restr._setall([3, 1, 10, 1, 0, 1, 6, 3, 7, 1, 2, 3])
 conf.setrestrictions(restr.dict)
+conf.setlanguage('en')
 
-print("Roster configuration:")
+# set locale
+langs = ['de']  # all translations we support
+langs_en = ['en'] + langs
+if conf.setlang in langs:
+    lang = gt.translation('all', localedir='../locales', languages=[conf.setlang])
+    lang.install()
+elif conf.setlang != 'en':
+    str_langs_en = ', '.join(langs_en)
+    errp1 = "Language '%s' not supported." % conf.setlang
+    errp2 = "Only available: %s." % str_langs_en
+    errp3 = "Continuing in English."
+    print(' '.join([errp1, errp2, errp3]))
+else:  # fall back to default English
+    _ = gt.gettext
+
+
+print(_("Roster configuration:"))
 conf.setyear(promptint(conf.year, "Year"))
 conf.setmonth(promptint(conf.monthno, "Month number"))
 conf.setmonthstartswith(calendar.monthrange(conf.year, conf.monthno)[0])
@@ -41,21 +59,6 @@ while True:
     vacarr0 = [str(int(x) - 1) for x in vacarr1]
     vacstr0 = ','.join(vacarr0)
     conf.setvacation(empl, vacstr0)
-
-# set locale
-langs = ['de']  # all translations we support
-langs_en = ['en'] + langs
-if conf.setlang in langs:
-    lang = gt.translation('all', localedir='../locales', languages=[conf.setlang])
-    lang.install()
-elif conf.setlang != 'en':
-    str_langs_en = ', '.join(langs_en)
-    errp1 = "Language '%s' not supported." % conf.setlang
-    errp2 = "Only available: %s." % str_langs_en
-    errp3 = "Continuing in English."
-    print(' '.join([errp1, errp2, errp3]))
-else:  # fall back to default English
-    _ = gt.gettext
 
 
 # evaluate input

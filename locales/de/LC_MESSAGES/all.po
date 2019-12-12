@@ -133,6 +133,10 @@ msgstr "Schichtwechsel im Monat"
 msgid "work days"
 msgstr "Arbeitstage"
 
+#: rostermaker/run.py
+msgid "Roster configuration:"
+msgstr "Dienstplan-Konfiguration:"
+
 #: rostermaker/run.py:43
 msgid "Number of qualified employees: %d"
 msgstr "Anzahl Fachkräfte: %d"
