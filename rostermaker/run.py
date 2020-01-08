@@ -54,9 +54,23 @@ while True:
     if empl not in (conf.qualified + conf.regular):
         print("Employee %s does not exist. Please try again." % empl)
         continue
-    vacstr1 = input("Vacation days for %s (comma-separated): " % empl)
-    vacarr1 = vacstr1.split(',')
-    vacarr0 = [str(int(x) - 1) for x in vacarr1]
+    valid = False
+    empty = False
+    while not valid:
+        vacstr1 = input("Vacation days for %s (comma-separated): " % empl)
+        if vacstr1 == '':
+            vacarr0 = []
+            empty = True
+            break
+        vacarr1 = vacstr1.split(',')
+        try:
+            valid = True
+            vacarr0 = [str(int(x) - 1) for x in vacarr1]
+        except ValueError:
+            print("Please enter a comma-separated list of days in the month. (empty for none)")
+            valid = False
+    if empty:
+        break
     vacstr0 = ','.join(vacarr0)
     conf.setvacation(empl, vacstr0)
 
