@@ -37,7 +37,16 @@ class Restrictions:
 
     def promptall(self):
         for key in self.allowed:
-            self._setkv(key, input(key+": "))
+            worked = 0
+            while not worked:
+                new = input(key + ": ")
+                try:
+                    newint = int(new)
+                except ValueError:
+                    print("    %s has to be an integer. Please try again." % key)
+                    continue
+                worked = 1
+            self._setkv(key, newint)
 
     def print(self):
         print(self.dict)
