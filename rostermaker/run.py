@@ -52,12 +52,12 @@ while True:
     if empl == '':
         break
     if empl not in (conf.qualified + conf.regular):
-        print("Employee %s does not exist. Please try again." % empl)
+        print("Employee '%s' does not exist. Please try again." % empl)
         continue
     valid = False
     empty = False
     while not valid:
-        vacstr1 = input("Vacation days for %s (comma-separated): " % empl)
+        vacstr1 = input("Vacation days for employee '%s' (comma-separated): " % empl)
         if vacstr1 == '':
             vacarr0 = []
             empty = True
