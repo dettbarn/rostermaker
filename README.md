@@ -21,9 +21,12 @@ No installation required. It should run out of the box.
 
 ## Usage
 
-Set all the variables in a file in the rostermaker/ subfolder, called 'input'. Then simply run 'python run.py' there.
+So far there is no GUI; you call the program from the command line and also operate it there.
 
-Supports exporting the roster to .dat, .csv, .tex, .html, .xml, and .json.
+    cd rostermaker
+    python3 run.py
+
+Output formats that are exported: .dat, .csv, .tex, .html, .xml, and .json.
 
 ## Contribute
 
