@@ -157,16 +157,17 @@ class Roster:
             t2 = t1 + t1
             t3 = t1 + t1 + t1
             t4 = t1 + t1 + t1 + t1
+            c = self.conf
             f.write("{" + nl)
             f.write(t1 + "\"roster\": {" + nl)
-            f.write(t2 + "\"month\": " + str(monthno))
-            f.write(", \"year\": " + str(year))
+            f.write(t2 + "\"month\": " + str(c.monthno))
+            f.write(", \"year\": " + str(c.year))
             f.write(", \"days\": [" + nl)
             for i in range(0, self.ndays):
                 f.write(t3 + "{ \"number\": " + str(i + 1))
                 f.write(", \"shifts\": [" + nl)
                 for ishift in range(0, self.nshiftsperday):
-                    f.write(t4 + "{ \"type\": \"" + shiftnames[ishift] + "\"")
+                    f.write(t4 + "{ \"type\": \"" + c.shiftnames[ishift] + "\"")
                     f.write(", \"employees\": [ { \"employee\": \"")
                     emplsep = "\" }, { \"employee\": \""
                     f.write(emplsep.join((self.arr[i][ishift]).split(',')) + "\" } ] }")
