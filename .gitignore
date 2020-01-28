@@ -3,6 +3,7 @@ __pycache__/
 *.out
 *.csv
 *.tmp
+*.old
 input
 test.py
 notes.txt
@@ -23,3 +24,5 @@ misc/
 *roster_*.json
 texput.log
 vacations.py
+*.py~
+.gitignore~

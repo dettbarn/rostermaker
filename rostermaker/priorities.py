@@ -1,8 +1,6 @@
 import exceptions as e
 import gettext
 
-_ = gettext.gettext
-
 
 # weights (values) assigned to employees (keys) in a dictionary structure.
 class Priorities:

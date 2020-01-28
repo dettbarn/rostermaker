@@ -114,8 +114,8 @@ msgid "---  %s %d roster  ---"
 msgstr "---  %s %d Dienstplan  ---"
 
 #: rostermaker/rostermaker/roster.py:80
-msgid "# (day),"
-msgstr "# (Tag),"
+msgid "# (day)"
+msgstr "# (Tag)"
 
 #: rostermaker/roster.py:129
 msgid "free weekends"
@@ -132,6 +132,10 @@ msgstr "Schichtwechsel im Monat"
 #: rostermaker/roster.py:135
 msgid "work days"
 msgstr "Arbeitstage"
+
+#: rostermaker/run.py
+msgid "Roster configuration:"
+msgstr "Dienstplan-Konfiguration:"
 
 #: rostermaker/run.py:43
 msgid "Number of qualified employees: %d"

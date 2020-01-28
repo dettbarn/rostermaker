@@ -2,16 +2,10 @@ import random
 import gettext
 import exceptions as e
 
-try:
-    exec(compile(open("input", "rb").read(), "input", 'exec'))
-except FileNotFoundError:
-    print("No input file found.")
-
-_ = gettext.gettext
 
 # find out if a certain employee is in a certain shiftstring
-def isinshift(employee, shiftstring):
-    splitted = shiftstring.split(str_sep)
+def isinshift(employee, shiftstring, conf):
+    splitted = shiftstring.split(conf.str_sep)
     for i in splitted:
         if i == employee:
             return True
@@ -20,9 +14,9 @@ def isinshift(employee, shiftstring):
 
 # Add an employee to a shift string.
 # Does not check if already in shift (use isinshift() for that)
-def addtoshift(employee, shiftstring):
+def addtoshift(employee, shiftstring, conf):
     if shiftstring != "":
-        shiftstring += str_sep
+        shiftstring += conf.str_sep
     shiftstring += employee
     return shiftstring
 
@@ -49,8 +43,8 @@ def getindivsched(employee, arr):
 # returns false if shifts are equal, true if not.
 # returns also false if one of shifts is 'undef'
 # or if one is some other non-shift meta-identifier
-def isshiftchange(shift1, shift2):
-    if shift1 in shiftnames and shift2 in shiftnames:
+def isshiftchange(shift1, shift2, conf):
+    if shift1 in conf.shiftnames and shift2 in conf.shiftnames:
         if shift1 != shift2:
             return True
     else:
@@ -58,13 +52,13 @@ def isshiftchange(shift1, shift2):
 
 
 # get last shift, BEFORE the shift currently considered
-def getlastshiftname(employee, arr, curday, curshift):
+def getlastshiftname(employee, arr, curday, curshift, conf):
     for ishift in range(curshift, 0):
-        if isinshift(employee, arr[iday][ishift]):
+        if isinshift(employee, arr[iday][ishift], conf):
             return shiftnames[ishift]
     for iday in range(curday, 0):
         for ishift in range(nshiftsperday, 0):
-            if isinshift(employee, arr[iday][ishift]):
+            if isinshift(employee, arr[iday][ishift], conf):
                 return shiftnames[ishift]
     # reaches beginning of month, still not found, so it's undefined
     return "undef"
@@ -266,3 +260,34 @@ def ndays(monthno, year):
         str_illegalMonth = _("Error in ndays: Illegal month number.")
         raise e.IllegalMonthException(str_illegalMonth)
         return -1
+
+
+def promptint(cur, name):
+    worked = 0
+    while not worked:
+        new = input("%s (empty for default %s): " % (name, str(cur)))
+        if new == "":
+            newint = cur
+            break
+        try:
+            newint = int(new)
+        except ValueError:
+            print("    %s has to be an integer. Please try again." % name)
+            continue
+        worked = 1
+    return newint
+
+def promptstr(cur, name):
+    worked = 0
+    while not worked:
+        new = input("%s (empty for default %s): " % (name, str(cur)))
+        if new == "":
+            newstr = cur
+            break
+        try:
+            newstr = str(new)
+        except ValueError:
+            print("    %s has to be a string. Please try again." % name)
+            continue
+        worked = 1
+    return newstr
