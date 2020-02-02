@@ -69,10 +69,9 @@ while True:
         except ValueError:
             print("Please enter a comma-separated list of days in the month. (empty for none)")
             valid = False
-    if empty:
-        break
-    vacstr0 = ','.join(vacarr0)
-    conf.setvacation(empl, vacstr0)
+    if not empty:
+        vacstr0 = ','.join(vacarr0)
+        conf.setvacation(empl, vacstr0)
 
 
 # evaluate input
