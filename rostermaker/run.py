@@ -5,9 +5,6 @@ import calendar
 # import functions
 # from roster import Roster
 
-exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
-exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
-
 from config import Config
 import restrictions as re
 
@@ -37,6 +34,8 @@ elif conf.setlang != 'en':
 else:  # fall back to default English
     _ = gt.gettext
 
+exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
+exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 
 print(_("Roster configuration:"))
 conf.setyear(promptint(conf.year, "Year"))

@@ -1,6 +1,10 @@
 import random
-import gettext
 import exceptions as e
+
+# gettext fallback
+try: _
+except NameError:
+    def _(s): return s
 
 
 # find out if a certain employee is in a certain shiftstring
