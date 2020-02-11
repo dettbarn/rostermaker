@@ -4,6 +4,8 @@ import glob
 
 from roster import Roster
 from functions import ndays
+from config import Config
+import restrictions as re
 
 
 class TestRoster(unittest.TestCase):
@@ -68,6 +70,7 @@ class TestRoster(unittest.TestCase):
 
     def test_exportfull(self):
         roster = self.test_init()
+        roster.setconf(self.testprep_confobj())
         tmpfolder = "./tmp"
         pref = "temptestexport"
         if os.path.exists(tmpfolder):
@@ -84,9 +87,23 @@ class TestRoster(unittest.TestCase):
                 os.remove(file)
         os.rmdir(tmpfolder)
 
+    def testprep_confobj(self):
+        conf = Config()
+        conf.setdefault()
+        conf.setqualified(["A", "B", "C", "D", "E", "F", "G"])
+        conf.setregular(["a", "b", "c", "d", "e", "f", "g", "h", "i"])
+        conf.setmonth(1)
+        conf.setyear(2001)
+        restr = re.Restrictions()
+        restr._setall([3, 1, 10, 1, 0, 1, 6, 3, 7, 1, 2, 3])
+        conf.setrestrictions(restr.dict)
+        conf.setlanguage('en')
+        return conf
+
     def test_tryfill(self):
         ro1 = self.test_init()
         ro2 = ro1
+        ro2.setconf(self.testprep_confobj())
         ro2.tryfill()
         # tryfill should only fill the arr, nothing else
         self.assertEqual(ro1.qualified, ro2.qualified)

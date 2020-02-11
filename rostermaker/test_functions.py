@@ -1,33 +1,48 @@
 import unittest
+import gettext
 
 try:
     exec(compile(open("input", "rb").read(), "input", 'exec'))
 except FileNotFoundError:
     print("No input file found.")
 
+_ = gettext.gettext
+
 from functions import isinshift, addtoshift
 from functions import isshiftchange, weightedrnd, daystr
 from functions import emptyarr, monthstr
 from functions import twodigit, isleapyear, ndays
 import exceptions as e
+from config import Config
+
 
 
 class TestFunctions(unittest.TestCase):
 
+    # test preparation function
+    # returns a somewhat default config object to be used for test functions
+    def testprep_confobj(self):
+        conf = Config()
+        conf.setdefault()
+        conf.str_sep = ','
+        return conf
+
     def test_isinshift(self):
-        self.assertTrue(isinshift("Eric", "Stan,Kyle,Eric,Kenny"))
-        self.assertTrue(isinshift("Tina", "Louise,Gene,Tina"))
-        self.assertTrue(isinshift("Hayley", "Hayley,Steve,Roger,Klaus"))
-        self.assertFalse(isinshift("Bart", "Fry,Leela,Zoidberg"))
-        self.assertFalse(isinshift("Stewie", "Hero,Toot,Wooldoor"))
-        self.assertFalse(isinshift("wRoNgCaSe", "wrongcase,Wrongcase"))
-        self.assertFalse(isinshift("sym_bols", "Symbols,symbols"))
+        conf = self.testprep_confobj()
+        self.assertTrue(isinshift("Eric", "Stan,Kyle,Eric,Kenny", conf))
+        self.assertTrue(isinshift("Tina", "Louise,Gene,Tina", conf))
+        self.assertTrue(isinshift("Hayley", "Hayley,Steve,Roger,Klaus", conf))
+        self.assertFalse(isinshift("Bart", "Fry,Leela,Zoidberg", conf))
+        self.assertFalse(isinshift("Stewie", "Hero,Toot,Wooldoor", conf))
+        self.assertFalse(isinshift("wRoNgCaSe", "wrongcase,Wrongcase", conf))
+        self.assertFalse(isinshift("sym_bols", "Symbols,symbols", conf))
 
     def test_addtoshift(self):
-        self.assertEqual(addtoshift("First", ""), "First")
-        self.assertEqual(addtoshift("Second", "First"), "First,Second")
+        conf = self.testprep_confobj()
+        self.assertEqual(addtoshift("First", "", conf), "First")
+        self.assertEqual(addtoshift("Second", "First", conf), "First,Second")
         fin = "First,Second,Third"
-        self.assertEqual(addtoshift("Third", "First,Second"), fin)
+        self.assertEqual(addtoshift("Third", "First,Second", conf), fin)
 
     def test_emptyarr(self):
         b = [["", "", ""], ["", "", ""], ["", "", ""]]
@@ -40,10 +55,11 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(emptyarr(4, 2), b)
 
     def test_isshiftchange(self):
-        self.assertTrue(isshiftchange(shiftnames[0],shiftnames[1]))
-        self.assertFalse(isshiftchange(shiftnames[0],'undef'))
-        self.assertFalse(isshiftchange('undef',shiftnames[0]))
-        self.assertFalse(isshiftchange('undef','undef'))
+        conf = self.testprep_confobj()
+        self.assertTrue(isshiftchange(conf.shiftnames[0], conf.shiftnames[1], conf))
+        self.assertFalse(isshiftchange(conf.shiftnames[0], 'undef', conf))
+        self.assertFalse(isshiftchange('undef', conf.shiftnames[0], conf))
+        self.assertFalse(isshiftchange('undef', 'undef', conf))
 
     def test_weightedrnd(self):
         self.assertEqual(weightedrnd([0,42]),1)
