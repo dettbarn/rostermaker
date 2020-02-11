@@ -1,5 +1,9 @@
 import exceptions as e
-import gettext
+
+# gettext fallback
+try: _
+except NameError:
+    def _(s): return s
 
 
 # weights (values) assigned to employees (keys) in a dictionary structure.
