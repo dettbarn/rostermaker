@@ -1,7 +1,8 @@
 from datetime import datetime
 
+import priorities as p
+
 exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
-exec(compile(open("priorities.py", "rb").read(), "priorities.py", 'exec'))
 
 
 class Roster:
@@ -228,7 +229,7 @@ class Roster:
                     # kquali = r.randrange(minqualipershift, maxqualipershift + 1)
                     kreg = max(0, kpersons - kquali)
                     # first generate favorites and vetoes arrays
-                    prio = Priorities()
+                    prio = p.Priorities()
                     if iday >= 1:
                         onedayago = (self.arr[iday - 1][ishift]).split(c.str_sep)
                         for employee in onedayago:

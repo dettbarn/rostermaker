@@ -1,4 +1,3 @@
-import sys
 import gettext as gt
 import calendar
 
