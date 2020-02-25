@@ -1,7 +1,8 @@
 import exceptions as e
 
 # gettext fallback
-try: _
+try:
+    _
 except NameError:
     def _(s): return s
 

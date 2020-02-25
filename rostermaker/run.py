@@ -22,7 +22,8 @@ conf.setlanguage('en')
 langs = ['de']  # all translations we support
 langs_en = ['en'] + langs
 if conf.setlang in langs:
-    lang = gt.translation('all', localedir='../locales', languages=[conf.setlang])
+    lang = gt.translation('all', localedir='../locales',
+                          languages=[conf.setlang])
     lang.install()
 elif conf.setlang != 'en':
     str_langs_en = ', '.join(langs_en)
@@ -40,8 +41,10 @@ print(_("Roster configuration:"))
 conf.setyear(promptint(conf.year, "Year"))
 conf.setmonth(promptint(conf.monthno, "Month number"))
 conf.setmonthstartswith(calendar.monthrange(conf.year, conf.monthno)[0])
-conf.setqualified(promptstr(','.join(conf.qualified), "Qualified employees").split(','))
-conf.setregular(promptstr(','.join(conf.regular), "Regular employees").split(','))
+conf.setqualified(promptstr(','.join(conf.qualified),
+                            "Qualified employees").split(','))
+conf.setregular(promptstr(','.join(conf.regular),
+                          "Regular employees").split(','))
 print("Please put in the vacation days for each employee.")
 print("(List of all employees: %s)" % ','.join(conf.qualified + conf.regular))
 emplq = ''
@@ -86,7 +89,8 @@ for i in range(0, nregular):
     arrvacregular.append("")
 
 # Initialize roster
-roster = Roster(len(conf.shiftnames), conf.qualified, conf.regular, conf.monthno, conf.year)
+roster = Roster(len(conf.shiftnames), conf.qualified, conf.regular,
+                conf.monthno, conf.year)
 roster.setvacations(conf.vacations)
 roster.setconf(conf)
 

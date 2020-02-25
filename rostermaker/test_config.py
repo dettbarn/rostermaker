@@ -3,6 +3,7 @@ import unittest
 from config import Config
 import restrictions as re
 
+
 class TestConfig(unittest.TestCase):
 
     def test_write_read(self):

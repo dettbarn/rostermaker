@@ -2,7 +2,8 @@ import random
 import exceptions as e
 
 # gettext fallback
-try: _
+try:
+    _
 except NameError:
     def _(s): return s
 
@@ -280,6 +281,7 @@ def promptint(cur, name):
             continue
         worked = 1
     return newint
+
 
 def promptstr(cur, name):
     worked = 0

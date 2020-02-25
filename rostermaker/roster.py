@@ -54,7 +54,8 @@ class Roster:
         print(_("Error in getvacation: Employee \"%s\" not found.") % employee)
         return 1
 
-    def setvacations(self, vacations):  # months start with 0 in this definition
+    # months start with 0 in this definition
+    def setvacations(self, vacations):
         for employee in vacations:
             self.setvacation(employee, vacations[employee])
 
@@ -91,7 +92,8 @@ class Roster:
             fileformat = "out"
         stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         ym = str(self.conf.year) + "-" + twodigit(self.conf.monthno)
-        f = open(folder + "/" + prefix + "_" + ym + "_" + stamp + "." + fileformat, "w+")
+        f = open(folder + "/" + prefix + "_" + ym + "_" + stamp
+                 + "." + fileformat, "w+")
         nl = Roster.nl
         if fileformat == "out":
             f.write(self.getheadline() + nl)
@@ -112,10 +114,12 @@ class Roster:
             for i in (self.qualified + self.regular):
                 f.write("c")
             f.write("}" + nl)
-            f.write(" & ".join([""] + self.qualified + self.regular) + " \\\\" + nl)
+            f.write(" & ".join([""] + self.qualified + self.regular)
+                    + " \\\\" + nl)
             f.write("\\hline" + nl)
             for i in range(0, self.ndays):
-                f.write(self.getseprow(self.qualified + self.regular, i, " & ", " \\\\" + nl))
+                f.write(self.getseprow(self.qualified + self.regular,
+                                       i, " & ", " \\\\" + nl))
             f.write("\\end{tabular}" + nl)
             f.write("\\end{table}" + nl)
             f.write("\\end{document}" + nl)
@@ -128,10 +132,12 @@ class Roster:
             f.write("<h1>" + self.getheadline() + "</h1>" + nl)
             f.write("<table>" + nl)
             f.write("<thead><th>")
-            f.write("</th><th>".join([""] + self.qualified + self.regular) + "</th></thead>" + nl)
+            f.write("</th><th>".join([""] + self.qualified + self.regular)
+                    + "</th></thead>" + nl)
             for i in range(0, self.ndays):
                 f.write("<tr><td>")
-                f.write(self.getseprow(self.qualified + self.regular, i, "</td><td>", "</td></tr>" + nl))
+                f.write(self.getseprow(self.qualified + self.regular,
+                                       i, "</td><td>", "</td></tr>" + nl))
             f.write("</table>" + nl)
             f.write("</body>" + nl)
             f.write("</html>" + nl)
@@ -141,14 +147,18 @@ class Roster:
             t3 = t1 + t1 + t1
             t4 = t1 + t1 + t1 + t1
             c = self.conf
-            f.write("<roster month=" + str(c.monthno) + " year=" + str(c.year) + ">" + nl)
+            f.write("<roster month=" + str(c.monthno)
+                    + " year=" + str(c.year) + ">" + nl)
             for i in range(0, self.ndays):
                 f.write(t1 + "<day number=" + str(i + 1) + ">" + nl)
                 for ishift in range(0, self.nshiftsperday):
-                    f.write(t2 + "<shift type='" + c.shiftnames[ishift] + "'>" + nl)
+                    f.write(t2 + "<shift type='"
+                            + c.shiftnames[ishift] + "'>" + nl)
                     f.write(t3 + "<employee>" + nl + t4)
-                    emplsep = nl + t3 + "</employee>" + nl + t3 + "<employee>" + nl + t4
-                    f.write(emplsep.join((self.arr[i][ishift]).split(self.conf.str_sep)) + nl)
+                    emplsep = (nl + t3 + "</employee>" + nl
+                               + t3 + "<employee>" + nl + t4)
+                    f.write(emplsep.join((self.arr[i][ishift])
+                                         .split(self.conf.str_sep)) + nl)
                     f.write(t3 + "</employee>" + nl)
                     f.write(t2 + "</shift>" + nl)
                 f.write(t1 + "</day>" + nl)
@@ -168,10 +178,12 @@ class Roster:
                 f.write(t3 + "{ \"number\": " + str(i + 1))
                 f.write(", \"shifts\": [" + nl)
                 for ishift in range(0, self.nshiftsperday):
-                    f.write(t4 + "{ \"type\": \"" + c.shiftnames[ishift] + "\"")
+                    f.write(t4 + "{ \"type\": \""
+                            + c.shiftnames[ishift] + "\"")
                     f.write(", \"employees\": [ { \"employee\": \"")
                     emplsep = "\" }, { \"employee\": \""
-                    f.write(emplsep.join((self.arr[i][ishift]).split(',')) + "\" } ] }")
+                    f.write(emplsep.join((self.arr[i][ishift]).split(','))
+                            + "\" } ] }")
                     if ishift < self.nshiftsperday - 1:
                         f.write(",")
                     f.write(nl)
@@ -226,28 +238,38 @@ class Roster:
                     # we also assume that we work at minimum staff
                     kpersons = r.dict["minpersonspershift"]
                     kquali = 1
-                    # kquali = r.randrange(minqualipershift, maxqualipershift + 1)
+                    # kquali = r.randrange(minqualipershift,
+                    #                      maxqualipershift + 1)
                     kreg = max(0, kpersons - kquali)
                     # first generate favorites and vetoes arrays
                     prio = p.Priorities()
                     if iday >= 1:
-                        onedayago = (self.arr[iday - 1][ishift]).split(c.str_sep)
+                        onedayago = ((self.arr[iday - 1][ishift])
+                                     .split(c.str_sep))
                         for employee in onedayago:
                             # person only favorite
                             #   if not in all last (maxdaysinrow) days,
                             #   else vetoed.
-                            if self.isinalllastndays(employee, iday, r.dict["maxdaysinrow"]):
+                            if self.isinalllastndays(employee, iday,
+                                                     r.dict["maxdaysinrow"]):
                                 prio.setweight(employee, 0)
-                            elif self.isinalllastndays(employee, iday, r.dict["maxdaysinrow"] - 1):
+                            elif self.isinalllastndays(employee, iday,
+                                                       (r.dict["maxdaysinrow"]
+                                                        - 1)):
                                 prio.setweight(employee, c.favwgtdimin)
-                            elif self.isinexactlyalllastndays(employee, iday, 2):
+                            elif self.isinexactlyalllastndays(employee,
+                                                              iday, 2):
                                 prio.setweight(employee, c.favwgtaugm)
-                            elif self.isinexactlyalllastndays(employee, iday, 1):
+                            elif self.isinexactlyalllastndays(employee,
+                                                              iday, 1):
                                 prio.setweight(employee, c.favwgtaugm)
                             else:
                                 prio.setweight(employee, c.favwgt)
                         for employee in (self.qualified + self.regular):
-                            lastshiftname = getlastshiftname(employee, self.arr, iday, ishift, self.conf)
+                            lastshiftname = getlastshiftname(employee,
+                                                             self.arr,
+                                                             iday, ishift,
+                                                             self.conf)
                             if lastshiftname != c.shiftnames[ishift]:
                                 # Scale weight down if would be shift change
                                 lastday = self.getlastday(employee, iday)
@@ -268,7 +290,8 @@ class Roster:
                                 return 1
                             rnd = pickwithpriorities(self.qualified, prio)
                         oldstr = self.arr[iday][ishift]
-                        self.arr[iday][ishift] = addtoshift(rnd, oldstr, self.conf)
+                        self.arr[iday][ishift] = addtoshift(rnd, oldstr,
+                                                            self.conf)
                     for i in range(0, kreg):
                         # weighted averaging:
                         rnd = pickwithpriorities(self.regular, prio)
@@ -282,7 +305,8 @@ class Roster:
                                 return 2
                             rnd = pickwithpriorities(self.regular, prio)
                         oldstr = self.arr[iday][ishift]
-                        self.arr[iday][ishift] = addtoshift(rnd, oldstr, self.conf)
+                        self.arr[iday][ishift] = addtoshift(rnd, oldstr,
+                                                            self.conf)
         return 0
 
     # find the maximum number of shift changes
@@ -310,12 +334,15 @@ class Roster:
         clashesarr = []
         if self.hasfreeweekends(employee) < r.dict["minfreeweekends"]:
             clashesarr += [_("free weekends")]
-        if self.findmaxshiftchangesseries(employee) > r.dict["maxshiftchangesperseries"]:
+        if (self.findmaxshiftchangesseries(employee)
+           > r.dict["maxshiftchangesperseries"]):
             clashesarr += [_("shift series")]
-        if self.countshiftchangespermonth(employee) > r.dict["maxshiftchangespermonth"]:
+        if (self.countshiftchangespermonth(employee)
+                > r.dict["maxshiftchangespermonth"]):
             clashesarr += [_("monthly shift changes")]
         availabledays = self.ndays - self.getnvacdays(employee)
-        mindays_corr = r.dict["minworkdayseachperson"] * availabledays / self.ndays
+        mindays_corr = (r.dict["minworkdayseachperson"]
+                        * availabledays / self.ndays)
         if self.countworkdays(employee) < mindays_corr:
             clashesarr += [_("work days")]
         return clashesarr
@@ -382,19 +409,28 @@ class Roster:
 
     # Check if it would be ok to add this employee (rnd) at this day and shift
     def wouldbeok(self, rnd, iday, ishift):
+        dic = self.conf.restr.dict
         if isinshift(rnd, self.arr[iday][ishift], self.conf):
             return False  # already there
-        elif (ishift >= 1 and isinshift(rnd, self.arr[iday][ishift - 1], self.conf)):
+        elif (ishift >= 1 and isinshift(rnd,
+                                        self.arr[iday][ishift - 1],
+                                        self.conf)):
             return False  # already in preceding shift (same day)
-        elif (ishift == 0 and isinshift(rnd, self.arr[iday - 1][ishift + 2], self.conf)):
+        elif (ishift == 0 and isinshift(rnd,
+                                        self.arr[iday - 1][ishift + 2],
+                                        self.conf)):
             return False  # already in preceding shift (previous day)
-        elif (ishift - 2 >= 0 and isinshift(rnd, self.arr[iday][ishift - 2], self.conf)):
+        elif (ishift - 2 >= 0 and isinshift(rnd,
+                                            self.arr[iday][ishift - 2],
+                                            self.conf)):
             return False  # already in two shifts ago, same day
-        elif self.isinalllastndays(rnd, iday, self.conf.restr.dict["maxdaysinrow"]):
+        elif self.isinalllastndays(rnd, iday,
+                                   dic["maxdaysinrow"]):
             return False  # already has maximum shifts in row at this point
         elif self.hasvacationthatday(rnd, iday):
             return False  # has vacation this day
-        elif self.isinalllastndays(rnd, iday - 1, self.conf.restr.dict["ndaysinrowtorequiretwofree"]):
+        elif self.isinalllastndays(rnd, iday - 1,
+                                   dic["ndaysinrowtorequiretwofree"]):
             if not self.isinday(rnd, iday - 1):
                 return False  # had free yesterday,
                 # but had a big number of days in row directly before that,
@@ -440,4 +476,4 @@ class Roster:
         return len(splitted)
 
     def setconf(self, conf):
-    	self.conf = conf
+        self.conf = conf

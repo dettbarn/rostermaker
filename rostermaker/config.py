@@ -1,5 +1,6 @@
 import restrictions as re
 
+
 # configuration object
 # including everything you need for roster calculation
 class Config:
@@ -24,11 +25,14 @@ class Config:
         self.favwgtdimin = 3  # diminished favorite weight
         self.favwgtaugm = 50  # augmented favorite weight
         self.sclshiftjump = 0.05  # yesterday different shift, scale down
-        self.sclshiftchng = 0.4  # previous shift (but not yesterday) different, scale down
+        self.sclshiftchng = 0.4  # previous shift (but not yesterday) 
+        #                          different, scale down
 
         # misc
-        self.printtrynumbermod = 100  # print every x'th Try, to show user it's still running
-        self.printfailedoutput = False  # print the last output even if the restriction checks fail
+        self.printtrynumbermod = 100  # print every x'th Try,
+        #                               to show user it's still running
+        self.printfailedoutput = False  # print the last output
+        #                                 even if the restriction checks fail
         self.setlang = 'en'  # output language
 
         # debug
@@ -70,14 +74,16 @@ class Config:
             if hasattr(self, attr) and attr != "restr":
                 # string attributes have to be put in quotes
                 if attr == 'str_sep' or attr == 'setlang':
-                    st += ("config.%s = '%s'" % (attr, getattr(self, attr))) + "\n"
+                    st += (("config.%s = '%s'" % (attr, getattr(self, attr)))
+                           + "\n")
                 else:
-                    st += ("config.%s = %s" % (attr, getattr(self, attr))) + "\n"
+                    st += (("config.%s = %s" % (attr, getattr(self, attr)))
+                           + "\n")
         st += "config.setrestrictions(%s)" % self.restr.dict
         return st
 
-    def writetofile(self,filename):
-        f = open(filename,"w+")
+    def writetofile(self, filename):
+        f = open(filename, "w+")
         f.write(self.str())
         f.close()
 

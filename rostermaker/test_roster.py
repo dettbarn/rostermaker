@@ -62,7 +62,8 @@ class TestRoster(unittest.TestCase):
         roster = self.test_init()
         for iday in range(0, roster.ndays):
             for ishift in range(0, roster.nshiftsperday):
-                roster.arr[iday][ishift] = "_".join(["foo", str(iday), str(ishift)])
+                roster.arr[iday][ishift] = "_".join(["foo",
+                                                     str(iday), str(ishift)])
         roster.makeempty()
         for iday in range(0, roster.ndays):
             for ishift in range(0, roster.nshiftsperday):

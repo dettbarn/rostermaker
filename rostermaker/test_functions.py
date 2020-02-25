@@ -1,13 +1,5 @@
 import unittest
 import gettext
-
-try:
-    exec(compile(open("input", "rb").read(), "input", 'exec'))
-except FileNotFoundError:
-    print("No input file found.")
-
-_ = gettext.gettext
-
 from functions import isinshift, addtoshift
 from functions import isshiftchange, weightedrnd, daystr
 from functions import emptyarr, monthstr
@@ -15,6 +7,12 @@ from functions import twodigit, isleapyear, ndays
 import exceptions as e
 from config import Config
 
+try:
+    exec(compile(open("input", "rb").read(), "input", 'exec'))
+except FileNotFoundError:
+    print("No input file found.")
+
+_ = gettext.gettext
 
 
 class TestFunctions(unittest.TestCase):
@@ -56,24 +54,26 @@ class TestFunctions(unittest.TestCase):
 
     def test_isshiftchange(self):
         conf = self.testprep_confobj()
-        self.assertTrue(isshiftchange(conf.shiftnames[0], conf.shiftnames[1], conf))
-        self.assertFalse(isshiftchange(conf.shiftnames[0], 'undef', conf))
-        self.assertFalse(isshiftchange('undef', conf.shiftnames[0], conf))
+        shift0 = conf.shiftnames[0]
+        shift1 = conf.shiftnames[1]
+        self.assertTrue(isshiftchange(shift0, shift1, conf))
+        self.assertFalse(isshiftchange(shift0, 'undef', conf))
+        self.assertFalse(isshiftchange('undef', shift0, conf))
         self.assertFalse(isshiftchange('undef', 'undef', conf))
 
     def test_weightedrnd(self):
-        self.assertEqual(weightedrnd([0,42]),1)
-        self.assertEqual(weightedrnd([41,0]),0)
-        self.assertEqual(weightedrnd([0,0,0,0,42,0,0]),4)
+        self.assertEqual(weightedrnd([0, 42]), 1)
+        self.assertEqual(weightedrnd([41, 0]), 0)
+        self.assertEqual(weightedrnd([0, 0, 0, 0, 42, 0, 0]), 4)
         exc = e.AllWeightsZeroException
-        self.assertRaises(exc, weightedrnd, [0,0,0])
+        self.assertRaises(exc, weightedrnd, [0, 0, 0])
 
     def test_daystr(self):
-        self.assertEqual(daystr(0)," 0")
-        self.assertEqual(daystr(3)," 3")
-        self.assertEqual(daystr(9)," 9")
-        self.assertEqual(daystr(10),"10")
-        self.assertEqual(daystr(30),"30")
+        self.assertEqual(daystr(0), " 0")
+        self.assertEqual(daystr(3), " 3")
+        self.assertEqual(daystr(9), " 9")
+        self.assertEqual(daystr(10), "10")
+        self.assertEqual(daystr(30), "30")
 
     def test_twodigit(self):
         self.assertEqual(twodigit(7), "07")
@@ -84,8 +84,8 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(twodigit(100), "00")
 
     def test_monthstr(self):
-        self.assertEqual(monthstr(1),"January")
-        self.assertEqual(monthstr(9),"September")
+        self.assertEqual(monthstr(1), "January")
+        self.assertEqual(monthstr(9), "September")
         exc = e.IllegalMonthException
         for illmo in [0, 13, -3, 1.5, 2.2]:
             self.assertRaises(exc, monthstr, illmo)
