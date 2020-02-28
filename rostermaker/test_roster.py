@@ -82,7 +82,7 @@ class TestRoster(unittest.TestCase):
         notsupported = ["bmp", "mp4", "ogg"]
         for format in notsupported:
             for file in glob.glob(tmpfolder + "/" + pref + "*." + format):
-                assertRaises(os.remove, file)
+                self.assertRaises(os.remove, file)
         for format in Roster.supportedformats:
             for file in glob.glob(tmpfolder + "/" + pref + "*." + format):
                 os.remove(file)
