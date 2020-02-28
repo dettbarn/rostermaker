@@ -26,7 +26,7 @@ So far there is no GUI; you call the program from the command line and also oper
     cd rostermaker
     python3 run.py
 
-Output formats that are exported: .dat, .csv, .tex, .html, .xml, and .json.
+Output formats that are supported: .dat, .csv, .tex, .html, .xml, and .json.
 
 ## Contribute
 
