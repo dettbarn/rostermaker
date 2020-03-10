@@ -24,7 +24,7 @@ No installation required. It should run out of the box.
 So far there is no GUI; you call the program from the command line and also operate it there.
 
     cd rostermaker
-    python3 run.py
+    python3 cli.py
 
 Output formats that are supported: .dat, .csv, .tex, .html, .xml, and .json.
 
