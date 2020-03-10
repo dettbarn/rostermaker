@@ -26,3 +26,4 @@ texput.log
 vacations.py
 *.py~
 .gitignore~
+*.pkl

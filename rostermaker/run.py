@@ -1,5 +1,6 @@
 import gettext as gt
 import calendar
+import pickle
 
 # import functions
 # from roster import Roster
@@ -93,6 +94,12 @@ roster = Roster(len(conf.shiftnames), conf.qualified, conf.regular,
                 conf.monthno, conf.year)
 roster.setvacations(conf.vacations)
 roster.setconf(conf)
+
+with open('roster.pkl', 'wb') as roster_file:
+    pickle.dump(roster, roster_file)
+
+with open('roster.pkl', 'rb') as roster_file:
+    roster = pickle.load(roster_file)
 
 # Calculate the weekend-days
 arrwe = []
