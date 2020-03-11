@@ -109,7 +109,7 @@ print(_("Number of weekend days: %d") % nwedays)
 with open('roster.pkl', 'wb') as roster_file:
     pickle.dump(roster, roster_file)
 
-exec(compile(open("run.py", "rb").read(), "roster.py", 'exec'))
+exec(compile(open("run.py", "rb").read(), "run.py", 'exec'))
 
 if ok:
     print(_("Worked on try number: # %d.") % ntries)
