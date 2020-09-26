@@ -2,7 +2,13 @@ from datetime import datetime
 
 import priorities as p
 
-exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
+from functions import *
+
+# gettext fallback
+try:
+    _
+except NameError:
+    def _(s): return s
 
 
 class Roster:

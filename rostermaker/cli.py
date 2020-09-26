@@ -2,9 +2,8 @@ import gettext as gt
 import calendar
 import pickle
 
-# import functions
-# from roster import Roster
-
+from functions import *
+from roster import Roster
 from config import Config
 import restrictions as re
 
@@ -34,9 +33,6 @@ elif conf.setlang != 'en':
     print(' '.join([errp1, errp2, errp3]))
 else:  # fall back to default English
     _ = gt.gettext
-
-exec(compile(open("functions.py", "rb").read(), "functions.py", 'exec'))
-exec(compile(open("roster.py", "rb").read(), "roster.py", 'exec'))
 
 print(_("Roster configuration:"))
 conf.setyear(promptint(conf.year, "Year"))

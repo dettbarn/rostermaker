@@ -1,4 +1,5 @@
 import unittest
+import gettext
 import os
 import glob
 
@@ -6,6 +7,8 @@ from roster import Roster
 from functions import ndays
 from config import Config
 import restrictions as re
+
+_ = gettext.gettext
 
 
 class TestRoster(unittest.TestCase):

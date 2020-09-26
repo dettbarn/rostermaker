@@ -7,11 +7,6 @@ from functions import twodigit, isleapyear, ndays
 import exceptions as e
 from config import Config
 
-try:
-    exec(compile(open("input", "rb").read(), "input", 'exec'))
-except FileNotFoundError:
-    print("No input file found.")
-
 _ = gettext.gettext
 
 
