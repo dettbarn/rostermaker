@@ -27,3 +27,4 @@ vacations.py
 *.py~
 .gitignore~
 *.pkl
+.vscode/
