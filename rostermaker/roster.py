@@ -448,6 +448,8 @@ class Roster:
 
     def hasfreeweekends(self, employee):
         nfreeweekends = 0
+        arrwe = self.getwedays()
+        nwedays = self.getnwedays()
         for i in range(0, nwedays):
             # only check Saturdays followed by Sundays within the month
             if i < nwedays - 1 and arrwe[i] + 1 == arrwe[i + 1]:
@@ -477,3 +479,16 @@ class Roster:
 
     def setconf(self, conf):
         self.conf = conf
+
+    # Get weekend days of the month
+    def getwedays(self):
+        arrwe = []
+        for i in range(0, self.ndays):
+            weekday = (self.conf.monthstartswith + i) % 7
+            if weekday == 5 or weekday == 6:
+                arrwe.append(i)
+        return arrwe
+
+    # Get number of weekend days of the month
+    def getnwedays(self):
+        return len(self.getwedays())
