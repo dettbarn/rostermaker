@@ -153,22 +153,24 @@ class Roster:
             t3 = t1 + t1 + t1
             t4 = t1 + t1 + t1 + t1
             c = self.conf
-            f.write("<roster month=" + str(c.monthno)
-                    + " year=" + str(c.year) + ">" + nl)
+            header = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>'
+            f.write(header)
+            f.write('<roster month="' + str(c.monthno)
+                    + '" year="' + str(c.year) + '">' + nl)
             for i in range(0, self.ndays):
-                f.write(t1 + "<day number=" + str(i + 1) + ">" + nl)
+                f.write(t1 + '<day number="' + str(i + 1) + '">' + nl)
                 for ishift in range(0, self.nshiftsperday):
-                    f.write(t2 + "<shift type='"
-                            + c.shiftnames[ishift] + "'>" + nl)
-                    f.write(t3 + "<employee>" + nl + t4)
-                    emplsep = (nl + t3 + "</employee>" + nl
-                               + t3 + "<employee>" + nl + t4)
+                    f.write(t2 + '<shift type="'
+                            + c.shiftnames[ishift] + '">' + nl)
+                    f.write(t3 + '<employee>' + nl + t4)
+                    emplsep = (nl + t3 + '</employee>' + nl
+                               + t3 + '<employee>' + nl + t4)
                     f.write(emplsep.join((self.arr[i][ishift])
                                          .split(self.conf.str_sep)) + nl)
-                    f.write(t3 + "</employee>" + nl)
-                    f.write(t2 + "</shift>" + nl)
-                f.write(t1 + "</day>" + nl)
-            f.write("</roster>" + nl)
+                    f.write(t3 + '</employee>' + nl)
+                    f.write(t2 + '</shift>' + nl)
+                f.write(t1 + '</day>' + nl)
+            f.write('</roster>' + nl)
         if fileformat == "json":
             t1 = "    "
             t2 = t1 + t1
