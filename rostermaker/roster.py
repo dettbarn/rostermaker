@@ -130,9 +130,10 @@ class Roster:
             f.write("\\end{table}" + nl)
             f.write("\\end{document}" + nl)
         if fileformat == "html":
-            f.write("<html>" + nl)
+            f.write("<!DOCTYPE html>" + nl)
+            f.write('<html lang="en">' + nl)
             f.write("<head>" + nl)
-            f.write("<title>" + self.getheadline() + "</title>" + nl)
+            f.write("  <title>" + self.getheadline() + "</title>" + nl)
             f.write("</head>" + nl)
             f.write("<body>" + nl)
             f.write("<h1>" + self.getheadline() + "</h1>" + nl)
