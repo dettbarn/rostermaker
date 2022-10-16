@@ -30,6 +30,4 @@ Output formats that are supported: .dat, .csv, .tex, .html, .xml, and .json.
 
 ## Contribute
 
-In principle everyone can contribute to the rostermaker project. Small stuff can be done at any time. I will name larger challenges under "Issues".
-
-Please look at [CONTRIBUTE.md](CONTRIBUTE.md) to see how and where one can contribute.
+In principle everyone can contribute to the rostermaker project. Small stuff can be done at any time. See also the "Issues" tab. Please look at [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
