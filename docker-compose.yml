@@ -1,0 +1,7 @@
+services:
+  roma-python:
+    image: rostermaker/roma-python
+    build:
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./:/app

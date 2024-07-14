@@ -23,10 +23,16 @@ No installation required. It should run out of the box.
 
 So far there is no GUI; you call the program from the command line and also operate it there.
 
+Output formats that are supported: .dat, .csv, .tex, .html, .xml, and .json.
+
+### Local
+
     cd rostermaker
     python3 cli.py
 
-Output formats that are supported: .dat, .csv, .tex, .html, .xml, and .json.
+### Using Docker
+
+    docker-compose run roma-python python ./cli.py
 
 ## Contribute
 
